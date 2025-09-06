@@ -238,7 +238,12 @@ private:
 };
 
 int main(int argc, char *argv[]) {
-    auto app = Gtk::Application::create(argc, argv, "com.noinsts.contest-maker");
-    MainWindow window;
-    return app -> run(window);
+    try {
+        auto app = Gtk::Application::create(argc, argv, "com.noinsts.contest-maker");
+        MainWindow window;
+        return app -> run(window);
+    } catch (const exception& e) {
+        cerr << "Application error: " << e.what() << endl;
+        return 1;
+    }
 }
