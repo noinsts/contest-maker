@@ -199,10 +199,10 @@ private:
             ContentBuilder builder(contestName, maxDir[0], fs::path(folderName));
             builder.run();
 
-            generateInfo("Успіх!", "Папку створено.");
+            showSuccessDialog("Успіх!", "Папку створено.");
 
         } catch (const exception& e) {
-            generateError("Помилка", e.what());
+            showErrorDialog("Помилка", e.what());
         }
 
     }
@@ -224,14 +224,14 @@ private:
         }
     }
 
-    void generateError(const string& title, const string& subTitle) {
+    void showErrorDialog(const string& title, const string& subTitle) {
         Gtk::MessageDialog dialog(*this, "Помилка", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
         dialog.set_title(title);
         dialog.set_secondary_text(subTitle);
         dialog.run();
     }
 
-    void generateInfo(const string& title, const string& subTitle) {
+    void showSuccessDialog(const string& title, const string& subTitle) {
         Gtk::MessageDialog dialog(*this, "Інфо", false, Gtk::MESSAGE_INFO);
         dialog.set_title(title);
         dialog.set_secondary_text(subTitle);
