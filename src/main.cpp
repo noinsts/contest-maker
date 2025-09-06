@@ -190,26 +190,12 @@ private:
     }
 
     void onCreateButtonPress() {
-        const string contestName = nameEntry.get_text();
-
-        if (contestName.empty()) {
-            generateError("Невірно введені дані", "Ви не вказали назву контесту");
-            return;
-        }
-
-        string maxDir = maxContestProblem.get_active_text();
-
-        if (maxDir.empty()) {
-            generateError("Невірно введені дані", "Ви не вказали кількість задач");
-            return;
-        }
-
-        if (folderName.empty()) {
-            generateError("Невірно введені дані", "Ви не вказали шлях до директорії");
-            return;
-        }
-
         try {
+            const string contestName = nameEntry.get_text();
+            const string maxDir = maxContestProblem.get_active_text();
+
+            validateFormInputs(contestName);
+
             ContentBuilder builder(contestName, maxDir[0], fs::path(folderName));
             builder.run();
 
@@ -219,6 +205,23 @@ private:
             generateError("Помилка", e.what());
         }
 
+    }
+
+    void validateFormInputs(const string& contestName) const {
+        if (contestName.empty()) {
+            throw invalid_argument("Ви не вказали назву контесту");
+        }
+
+        if (folderName.empty()) {
+            throw invalid_argument("Ви не вказали шлях до директорії");
+        }
+
+        const string forbiddenChars = "<>:\"/\\|?*";
+        for (char c : contestName) {
+            if (forbiddenChars.find(c) != string::npos) {
+                throw invalid_argument("Назва контесту містить заборонений символ: " + c);
+            }
+        }
     }
 
     void generateError(const string& title, const string& subTitle) {
