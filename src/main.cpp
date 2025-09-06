@@ -37,12 +37,28 @@ private:
     }
 
     void createFile(const fs::path& filePath, const string& context) const {
-        ofstream file(filePath);
-        if (!file.is_open()) {
+        try {
+            if (fs::exists(filePath)) {
+                cout << "File altready exists, skipping: " << filePath.string() << endl;
+                return;
+            }
+
+            ofstream file(filePath);
+            if (!file.is_open()) {
+                throw runtime_error("Cannot open file for writting" + filePath.string());
+            }
+
+            file << context;
+            if (file.fail()) {
+                throw runtime_error("Error writing to file: " + filePath.string());
+            }
+
+            cout << "Created file: " << filePath.string() << endl;
+            file.close();
+        
+        } catch (const exception& e) {
             throw runtime_error("Failed to create file: " + filePath.string());
-        }
-        file << context;
-        file.close();
+        } 
     }
 
     // ==============================
