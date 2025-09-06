@@ -23,8 +23,13 @@ private:
 
     void createDirectory(const fs::path& path) {
         try {
-            if (!fs::create_directory(path)) {
-                cerr << "Directory already exists: " << path << endl;
+            if (fs::exists(path)) {
+                cout << "Directory already exists, skipping: " << path << endl;
+                return;
+            }
+
+            if (fs::create_directories(path)) {
+                cout << "Created directory: " << path << endl;
             }
         } catch (const fs::filesystem_error& e) {
             throw runtime_error("Failed to create directory: " + path.string() + " - " + e.what());
