@@ -109,7 +109,25 @@ class MainWindow : public Gtk::Window {
 public: 
     MainWindow() {
         connectSignals();
+        setupUI();
+    }
 
+private:
+    Gtk::Box vbox{Gtk::ORIENTATION_VERTICAL};
+    Gtk::Label labelName{"Вкажіть назву контесту:"};
+    Gtk::Entry nameEntry;
+
+    Gtk::Label labelMaxProblem{"Оберіть кількість задач:"};
+    Gtk::ComboBoxText maxContestProblem;
+
+    Gtk::Label labelFolder{"Виберіть папку:"};
+    Gtk::Button folder{"Обрати папку"};
+
+    Gtk::Button createButton{"Створити"};
+
+    string folderName;
+
+    void setupUI() {
         set_default_size(250, 100);
         set_title("Contest maker");
         set_position(Gtk::WIN_POS_CENTER);
@@ -138,21 +156,6 @@ public:
         add(vbox);
         show_all_children();
     }
-
-private:
-    Gtk::Box vbox{Gtk::ORIENTATION_VERTICAL};
-    Gtk::Label labelName{"Вкажіть назву контесту:"};
-    Gtk::Entry nameEntry;
-
-    Gtk::Label labelMaxProblem{"Оберіть кількість задач:"};
-    Gtk::ComboBoxText maxContestProblem;
-
-    Gtk::Label labelFolder{"Виберіть папку:"};
-    Gtk::Button folder{"Обрати папку"};
-
-    Gtk::Button createButton{"Створити"};
-
-    string folderName;
 
     void connectSignals() {
         createButton.signal_clicked().connect(
