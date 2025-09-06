@@ -112,6 +112,13 @@ public:
 
         set_default_size(250, 100);
         set_title("Contest maker");
+        set_position(Gtk::WIN_POS_CENTER);
+
+        vbox.set_spacing(10);
+        vbox.set_margin_top(10);
+        vbox.set_margin_bottom(10);
+        vbox.set_margin_left(10);
+        vbox.set_margin_right(10);
 
         vbox.pack_start(label, Gtk::PACK_SHRINK);
         vbox.pack_start(nameEntry, Gtk::PACK_SHRINK);
