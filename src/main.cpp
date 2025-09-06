@@ -120,20 +120,20 @@ public:
         vbox.set_margin_left(10);
         vbox.set_margin_right(10);
 
-        vbox.pack_start(label, Gtk::PACK_SHRINK);
+        vbox.pack_start(labelName, Gtk::PACK_SHRINK);
         vbox.pack_start(nameEntry, Gtk::PACK_SHRINK);
 
-        vbox.pack_start(label2, Gtk::PACK_SHRINK);
+        vbox.pack_start(labelMaxProblem, Gtk::PACK_SHRINK);
 
         populateComboBox();
         vbox.pack_start(maxContestProblem, Gtk::PACK_SHRINK);
 
         vbox.set_spacing(10);
-        vbox.pack_start(label3, Gtk::PACK_SHRINK);
+        vbox.pack_start(labelFolder, Gtk::PACK_SHRINK);
 
         vbox.pack_start(folder, Gtk::PACK_SHRINK);
 
-        vbox.pack_start(create, Gtk::PACK_SHRINK);
+        vbox.pack_start(createButton, Gtk::PACK_SHRINK);
 
         add(vbox);
         show_all_children();
@@ -141,21 +141,21 @@ public:
 
 private:
     Gtk::Box vbox{Gtk::ORIENTATION_VERTICAL};
-    Gtk::Label label{"Enter a contest name"};
+    Gtk::Label labelName{"Вкажіть назву контесту:"};
     Gtk::Entry nameEntry;
 
-    Gtk::Label label2{"Select max contest problem"};
+    Gtk::Label labelMaxProblem{"Оберіть кількість задач:"};
     Gtk::ComboBoxText maxContestProblem;
 
-    Gtk::Label label3{"Select a folder pos"};
-    Gtk::Button folder{"Відкрити"};
+    Gtk::Label labelFolder{"Виберіть папку:"};
+    Gtk::Button folder{"Обрати папку"};
 
-    Gtk::Button create{"Create"};
+    Gtk::Button createButton{"Створити"};
 
     string folderName;
 
     void connectSignals() {
-        create.signal_clicked().connect(
+        createButton.signal_clicked().connect(
             sigc::mem_fun(*this, &MainWindow::onCreateButtonPress)
         );
         folder.signal_clicked().connect(
