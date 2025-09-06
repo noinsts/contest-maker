@@ -66,15 +66,15 @@ private:
 
     void createSubDirectories() {
         for (char c = 'A'; c <= maxSubDir; ++c) {
-            fs::path dirPath = fullDirPath() / string(1, c);
+            fs::path dirPath = fullDirPath() / string{c};
             createDirectory(dirPath);
         }
     }
 
     void createSourceFiles() const {
         for (char c = 'A'; c <= maxSubDir; c++) {
-            const fs::path subDir = fullDirPath() / string(1, c);
-            const string fileName = string(1, c);
+            const fs::path subDir = fullDirPath() / string{c};
+            const string fileName = string{c};
 
             // C++ файли
             createFile(
@@ -106,7 +106,7 @@ public:
 
 class MainWindow : public Gtk::Window {
 
-public:
+public: 
     MainWindow() {
         set_default_size(250, 100);
         set_title("Contest maker");
@@ -117,7 +117,7 @@ public:
         vbox.pack_start(label2, Gtk::PACK_SHRINK);
 
         for (char c = 'A'; c <= 'Z'; c++) {
-            maxContestProblem.append(string(1, c));
+            maxContestProblem.append(string{c});
         }
 
         vbox.pack_start(maxContestProblem, Gtk::PACK_SHRINK);
