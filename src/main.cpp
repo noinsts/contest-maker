@@ -108,6 +108,8 @@ class MainWindow : public Gtk::Window {
 
 public: 
     MainWindow() {
+        connectSignals();
+
         set_default_size(250, 100);
         set_title("Contest maker");
 
@@ -125,10 +127,8 @@ public:
         vbox.set_spacing(10);
         vbox.pack_start(label3, Gtk::PACK_SHRINK);
 
-        folder.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::onFolderButtonPress));
         vbox.pack_start(folder, Gtk::PACK_SHRINK);
 
-        create.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::onCreateButtonPress));
         vbox.pack_start(create, Gtk::PACK_SHRINK);
 
         add(vbox);
@@ -149,6 +149,15 @@ private:
     Gtk::Button create{"Create"};
 
     string folderName;
+
+    void connectSignals() {
+        create.signal_clicked().connect(
+            sigc::mem_fun(*this, &MainWindow::onCreateButtonPress)
+        );
+        folder.signal_clicked().connect(
+            sigc::mem_fun(*this, &MainWindow::onFolderButtonPress)
+        );
+    }
 
     void onFolderButtonPress() {
         auto dialog = Gtk::FileChooserNative::create(
