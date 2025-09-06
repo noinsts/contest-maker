@@ -125,10 +125,7 @@ public:
 
         vbox.pack_start(label2, Gtk::PACK_SHRINK);
 
-        for (char c = 'A'; c <= 'Z'; c++) {
-            maxContestProblem.append(string{c});
-        }
-
+        populateComboBox();
         vbox.pack_start(maxContestProblem, Gtk::PACK_SHRINK);
 
         vbox.set_spacing(10);
@@ -164,6 +161,13 @@ private:
         folder.signal_clicked().connect(
             sigc::mem_fun(*this, &MainWindow::onFolderButtonPress)
         );
+    }
+
+    void populateComboBox() {
+        for (char c = 'A'; c <= 'Z'; c++) {
+            maxContestProblem.append(string{c});
+        }
+        maxContestProblem.set_active(4);
     }
 
     void onFolderButtonPress() {
