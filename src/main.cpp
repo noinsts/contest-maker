@@ -233,6 +233,11 @@ private:
                 openInCode(fullPath.string());
             }
 
+            if (createGitRepoCheck.get_active()) {
+                const fs::path fullPath = fs::path(folderName) / contestName;
+                createGitRepo(fullPath.string());
+            }
+
         } catch (const exception& e) {
             showErrorDialog("Помилка", e.what());
         }
@@ -272,6 +277,10 @@ private:
         if (result != 0) {
             throw runtime_error("Не вдалося відкрити Code");
         }
+    }
+    
+    void createGitRepo(const string& fullPath) {
+
     }
 
     void showErrorDialog(const string& title, const string& subTitle) {
