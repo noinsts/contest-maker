@@ -280,7 +280,14 @@ private:
     }
     
     void createGitRepo(const string& fullPath) {
+        string escapedPath = "\"" + fullPath + "\"";
+        const string command = "cd " + escapedPath + " && git init";
 
+        int result = system(command.c_str());
+
+        if (result != 0) {
+            throw runtime_error("Помилка під час створення Git репозиторію");
+        }
     }
 
     void showErrorDialog(const string& title, const string& subTitle) {
