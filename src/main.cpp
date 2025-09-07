@@ -144,6 +144,8 @@ private:
     Gtk::Label labelFolder{"Виберіть папку:"};
     Gtk::Button folder{"Обрати папку"};
 
+    Gtk::CheckButton openInCodeCheck{"Відкрити в Code"};
+
     Gtk::Button createButton{"Створити"};
 
     string folderName;
