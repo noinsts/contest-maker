@@ -174,6 +174,8 @@ private:
 
         vbox.pack_start(folder, Gtk::PACK_SHRINK);
 
+        vbox.pack_start(openInCodeCheck, Gtk::PACK_SHRINK);
+
         vbox.pack_start(createButton, Gtk::PACK_SHRINK);
 
         add(vbox);
