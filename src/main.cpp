@@ -258,7 +258,7 @@ private:
         string command;
 
         #ifdef _WIN32
-            command = "code \"" + fullPath + "\"";
+            command = "start \"\" \"%LOCALAPPDATA%\\Programs\\Microsoft VS Code\\Code.exe\" \"" + fullPath + "\"";
         #elif __APPLE__
             command = "open -a \"Visual Studio Code\" \"" + fullPath + "\"";
         #else
