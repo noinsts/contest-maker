@@ -145,6 +145,7 @@ private:
     Gtk::Button folder{"Обрати папку"};
 
     Gtk::CheckButton openInCodeCheck{"Відкрити в Code"};
+    Gtk::CheckButton createGitRepoCheck{"Створити Git репозиторій"};
 
     Gtk::Button createButton{"Створити"};
 
@@ -175,6 +176,7 @@ private:
         vbox.pack_start(folder, Gtk::PACK_SHRINK);
 
         vbox.pack_start(openInCodeCheck, Gtk::PACK_SHRINK);
+        vbox.pack_start(createGitRepoCheck, Gtk::PACK_SHRINK);
 
         vbox.pack_start(createButton, Gtk::PACK_SHRINK);
 
@@ -231,6 +233,11 @@ private:
                 openInCode(fullPath.string());
             }
 
+            if (createGitRepoCheck.get_active()) {
+                const fs::path fullPath = fs::path(folderName) / contestName;
+                createGitRepo(fullPath.string());
+            }
+
         } catch (const exception& e) {
             showErrorDialog("Помилка", e.what());
         }
@@ -269,6 +276,17 @@ private:
 
         if (result != 0) {
             throw runtime_error("Не вдалося відкрити Code");
+        }
+    }
+    
+    void createGitRepo(const string& fullPath) {
+        string escapedPath = "\"" + fullPath + "\"";
+        const string command = "cd " + escapedPath + " && git init";
+
+        int result = system(command.c_str());
+
+        if (result != 0) {
+            throw runtime_error("Помилка під час створення Git репозиторію");
         }
     }
 
