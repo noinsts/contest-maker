@@ -144,6 +144,8 @@ private:
     Gtk::Label labelFolder{"Виберіть папку:"};
     Gtk::Button folder{"Обрати папку"};
 
+    Gtk::CheckButton openInCodeCheck{"Відкрити в Code"};
+
     Gtk::Button createButton{"Створити"};
 
     string folderName;
@@ -171,6 +173,8 @@ private:
         vbox.pack_start(labelFolder, Gtk::PACK_SHRINK);
 
         vbox.pack_start(folder, Gtk::PACK_SHRINK);
+
+        vbox.pack_start(openInCodeCheck, Gtk::PACK_SHRINK);
 
         vbox.pack_start(createButton, Gtk::PACK_SHRINK);
 
@@ -222,6 +226,11 @@ private:
 
             showSuccessDialog("Успіх!", "Папку створено.");
 
+            if (openInCodeCheck.get_active()) {
+                const fs::path fullPath = fs::path(folderName) / contestName;
+                openInCode(fullPath.string());
+            }
+
         } catch (const exception& e) {
             showErrorDialog("Помилка", e.what());
         }
@@ -242,6 +251,24 @@ private:
             if (forbiddenChars.find(c) != string::npos) {
                 throw invalid_argument("Назва контесту містить заборонений символ: " + c);
             }
+        }
+    }
+
+    void openInCode(const string& fullPath) {
+        string command;
+
+        #ifdef _WIN32
+            command = "start \"\" \"%LOCALAPPDATA%\\Programs\\Microsoft VS Code\\Code.exe\" \"" + fullPath + "\"";
+        #elif __APPLE__
+            command = "open -a \"Visual Studio Code\" \"" + fullPath + "\"";
+        #else
+            command = "code \"" + fullPath + "\" &";
+        #endif
+
+        int result = system(command.c_str());
+
+        if (result != 0) {
+            throw runtime_error("Не вдалося відкрити Code");
         }
     }
 
