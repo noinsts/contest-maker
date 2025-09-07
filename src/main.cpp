@@ -226,6 +226,11 @@ private:
 
             showSuccessDialog("Успіх!", "Папку створено.");
 
+            if (openInCodeCheck.get_active()) {
+                const fs::path fullPath = fs::path(folderName) / contestName;
+                openInCode(fullPath.string());
+            }
+
         } catch (const exception& e) {
             showErrorDialog("Помилка", e.what());
         }
@@ -247,6 +252,10 @@ private:
                 throw invalid_argument("Назва контесту містить заборонений символ: " + c);
             }
         }
+    }
+
+    void openInCode(const string& fullPath) {
+
     }
 
     void showErrorDialog(const string& title, const string& subTitle) {
