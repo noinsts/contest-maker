@@ -255,7 +255,21 @@ private:
     }
 
     void openInCode(const string& fullPath) {
+        string command;
 
+        #ifdef _WIN32
+            command = "code \"" + fullPath + "\"";
+        #elif __APPLE__
+            command = "open -a \"Visual Studio Code\" \"" + fullPath + "\"";
+        #else
+            command = "code \"" + fullPath + "\" &";
+        #endif
+
+        int result = system(command.c_str());
+
+        if (result != 0) {
+            throw runtime_error("Не вдалося відкрити Code");
+        }
     }
 
     void showErrorDialog(const string& title, const string& subTitle) {
