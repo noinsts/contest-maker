@@ -145,6 +145,7 @@ private:
     Gtk::Button folder{"Обрати папку"};
 
     Gtk::CheckButton openInCodeCheck{"Відкрити в Code"};
+    Gtk::CheckButton createGitRepoCheck{"Створити Git репозиторій"};
 
     Gtk::Button createButton{"Створити"};
 
@@ -175,6 +176,7 @@ private:
         vbox.pack_start(folder, Gtk::PACK_SHRINK);
 
         vbox.pack_start(openInCodeCheck, Gtk::PACK_SHRINK);
+        vbox.pack_start(createGitRepoCheck, Gtk::PACK_SHRINK);
 
         vbox.pack_start(createButton, Gtk::PACK_SHRINK);
 
