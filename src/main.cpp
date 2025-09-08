@@ -262,6 +262,7 @@ private:
 
         if (result == Gtk::RESPONSE_ACCEPT) {
             folderName = dialog -> get_filename();
+            folder.set_label("🗂 " + fs::path(folderName).filename().string());
         }
     }
 
