@@ -253,9 +253,9 @@ private:
             throw invalid_argument("Ви не вказали шлях до директорії");
         }
 
-        const string forbiddenChars = "<>:\"/\\|?*";
+        static const string FORBIDDEN_CHARS = "<>:\"/\\|?*";
         for (char c : contestName) {
-            if (forbiddenChars.find(c) != string::npos) {
+            if (FORBIDDEN_CHARS.find(c) != string::npos) {
                 throw invalid_argument("Назва контесту містить заборонений символ: " + c);
             }
         }
