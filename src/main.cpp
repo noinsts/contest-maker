@@ -9,6 +9,52 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+/**
+ * @class SystemHelper
+ * @brief Клас з допоміжних методів керування системою
+ */
+class SystemHelper {
+
+public:
+    /**
+     * @brief Метод відкриває директорію в Visual Studio Code
+     * @param fullPath шлях до директорії
+     */
+    static void openInCode(const string& fullPath) {
+        string command;
+
+        #ifdef _WIN32
+            command = "start \"\" \"%LOCALAPPDATA%\\Programs\\Microsoft VS Code\\Code.exe\" \"" + fullPath + "\"";
+        #elif __APPLE__
+            command = "open -a \"Visual Studio Code\" \"" + fullPath + "\"";
+        #else
+            command = "code \"" + fullPath + "\" &";
+        #endif
+
+        int result = system(command.c_str());
+
+        if (result != 0) {
+            throw runtime_error("Не вдалося відкрити Code");
+        }
+    }
+    
+    /**
+     * @brief Метод створює Git репозиторій
+     * @param fullPath шлях до директорії
+     */
+    static void createGitRepo(const string& fullPath) {
+        string escapedPath = "\"" + fullPath + "\"";
+        const string command = "cd " + escapedPath + " && git init";
+
+        int result = system(command.c_str());
+
+        if (result != 0) {
+            throw runtime_error("Помилка під час створення Git репозиторію");
+        }
+    }
+
+};
+
 
 class ContentBuilder {
 
@@ -233,12 +279,12 @@ private:
 
             if (openInCodeCheck.get_active()) {
                 const fs::path fullPath = fs::path(folderName) / contestName;
-                openInCode(fullPath.string());
+                SystemHelper::openInCode(fullPath.string());
             }
 
             if (createGitRepoCheck.get_active()) {
                 const fs::path fullPath = fs::path(folderName) / contestName;
-                createGitRepo(fullPath.string());
+                SystemHelper::createGitRepo(fullPath.string());
             }
 
         } catch (const exception& e) {
@@ -261,35 +307,6 @@ private:
             if (FORBIDDEN_CHARS.find(c) != string::npos) {
                 throw invalid_argument("Назва контесту містить заборонений символ: " + c);
             }
-        }
-    }
-
-    void openInCode(const string& fullPath) {
-        string command;
-
-        #ifdef _WIN32
-            command = "start \"\" \"%LOCALAPPDATA%\\Programs\\Microsoft VS Code\\Code.exe\" \"" + fullPath + "\"";
-        #elif __APPLE__
-            command = "open -a \"Visual Studio Code\" \"" + fullPath + "\"";
-        #else
-            command = "code \"" + fullPath + "\" &";
-        #endif
-
-        int result = system(command.c_str());
-
-        if (result != 0) {
-            throw runtime_error("Не вдалося відкрити Code");
-        }
-    }
-    
-    void createGitRepo(const string& fullPath) {
-        string escapedPath = "\"" + fullPath + "\"";
-        const string command = "cd " + escapedPath + " && git init";
-
-        int result = system(command.c_str());
-
-        if (result != 0) {
-            throw runtime_error("Помилка під час створення Git репозиторію");
         }
     }
 
