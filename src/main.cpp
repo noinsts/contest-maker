@@ -56,6 +56,65 @@ public:
 };
 
 
+/**
+ * @class FileSystemManager.
+ * @brief Клас для роботи з файловою системою.
+ */
+class FileSystemManager {
+
+public:
+    /**
+     * @brief Метод створює директорію.
+     * @param path Шлях до директорії.
+     */
+    static void createDirectory(const fs::path& path) {
+        try {
+            if (fs::exists(path)) {
+                cout << "Directory already exists, skipping: " << path << endl;
+                return;
+            }
+
+            if (fs::create_directories(path)) {
+                cout << "Created directory: " << path << endl;
+            }
+        }
+        catch (const fs::filesystem_error& e) {
+            throw runtime_error("Failed to create directory: " + path.string() + " - " + e.what());
+        }
+    }
+
+    /**
+     * @brief Створює файл.
+     * @param path Глях до файлу.
+     * @param context Вміст файлу.
+     */
+    static void createFile(const fs::path& path, const string& context) {
+        try {
+            if (fs::exists(path)) {
+                cout << "File already exists, skipping: " << path.string() << endl;
+                return;
+            }
+
+            ofstream file(path);
+            if (!file.is_open()) {
+                throw runtime_error("Cannot open file for writing" + path.string());
+            }
+
+            file << context;
+            if (file.fail()) {
+                throw runtime_error("Error writing to file: " + path.string());
+            }
+
+            cout << "Created file: " << path.string() << endl;
+
+        }
+        catch (const exception& e) {
+            throw runtime_error("Failed to create file: " + path.string() + " - " + e.what());
+        }
+    }
+};
+
+
 class ContentBuilder {
 
 private:
@@ -67,61 +126,22 @@ private:
         return basePath_ / directoryName_;
     }
 
-    void createDirectory(const fs::path& path) {
-        try {
-            if (fs::exists(path)) {
-                cout << "Directory already exists, skipping: " << path << endl;
-                return;
-            }
-
-            if (fs::create_directories(path)) {
-                cout << "Created directory: " << path << endl;
-            }
-        } catch (const fs::filesystem_error& e) {
-            throw runtime_error("Failed to create directory: " + path.string() + " - " + e.what());
-        }
-    }
-
-    void createFile(const fs::path& filePath, const string& context) const {
-        try {
-            if (fs::exists(filePath)) {
-                cout << "File altready exists, skipping: " << filePath.string() << endl;
-                return;
-            }
-
-            ofstream file(filePath);
-            if (!file.is_open()) {
-                throw runtime_error("Cannot open file for writting" + filePath.string());
-            }
-
-            file << context;
-            if (file.fail()) {
-                throw runtime_error("Error writing to file: " + filePath.string());
-            }
-
-            cout << "Created file: " << filePath.string() << endl;
-        
-        } catch (const exception& e) {
-            throw runtime_error("Failed to create file: " + filePath.string());
-        } 
-    }
-
     // ==============================
     // ==============================
 
     void createMainDirectory() {
-        createDirectory(fullDirPath());
+        FileSystemManager::createDirectory(fullDirPath());
     }
 
     void createMainFiles() {
         // CMake
-        createFile(
+        FileSystemManager::createFile(
             fullDirPath() / "CMakeLists.txt",
             TemplateManager::getCMakeTemplate(directoryName_, maxSubDir_)
         );
 
         // README
-        createFile(
+        FileSystemManager::createFile(
             fullDirPath() / "README.md",
             TemplateManager::getReadmeTemplate(directoryName_)
         );
@@ -133,7 +153,7 @@ private:
     void createSubDirectories() {
         for (char c = 'A'; c <= maxSubDir_; ++c) {
             const fs::path dirPath = fullDirPath() / string{c};
-            createDirectory(dirPath);
+            FileSystemManager::createDirectory(dirPath);
         }
     }
 
@@ -143,13 +163,13 @@ private:
             const string fileName = string{c};
 
             // C++ файли
-            createFile(
+            FileSystemManager::createFile(
                 subDir / (fileName + ".cpp"),
                 TemplateManager::getCppTemplate()
             );
 
             // Python файли
-            createFile(
+            FileSystemManager::createFile(
                 subDir / (fileName + ".py"),
                 TemplateManager::getPythonTemplate()
             );
@@ -313,6 +333,9 @@ private:
         }
     }
 
+    /**
+     * @brief Очищує поля до їх дефолтних значень.
+     */
     void resetForm() {
         nameEntry.set_text("");
         folderName.clear();
