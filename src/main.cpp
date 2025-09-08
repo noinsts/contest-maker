@@ -134,6 +134,10 @@ public:
     }
 
 private:
+    static constexpr int WINDOW_WIDTH = 250;
+    static constexpr int WINDOW_HEIGHT = 100;
+    static constexpr int DEFAULT_COMBO_SELECTION = 4;
+
     Gtk::Box vbox{Gtk::ORIENTATION_VERTICAL};
     Gtk::Label labelName{"Вкажіть назву контесту:"};
     Gtk::Entry nameEntry;
@@ -152,7 +156,7 @@ private:
     string folderName;
 
     void setupUI() {
-        set_default_size(250, 100);
+        set_default_size(WINDOW_WIDTH, WINDOW_HEIGHT);
         set_title("Contest maker");
         set_position(Gtk::WIN_POS_CENTER);
 
@@ -197,7 +201,7 @@ private:
         for (char c = 'A'; c <= 'Z'; c++) {
             maxContestProblem.append(string{c});
         }
-        maxContestProblem.set_active(4);
+        maxContestProblem.set_active(DEFAULT_COMBO_SELECTION);
     }
 
     void onFolderButtonPress() {
