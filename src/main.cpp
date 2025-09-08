@@ -1,73 +1,14 @@
 #include <gtkmm.h>
 
 #include <iostream>
-#include <fstream>
 #include <filesystem>
 
 #include <TemplateManager.hpp>
 #include <SystemHelper.hpp>
+#include <FileSystemManager.hpp>
 
 namespace fs = std::filesystem;
 using namespace std;
-
-/**
- * @class FileSystemManager.
- * @brief Клас для роботи з файловою системою.
- */
-class FileSystemManager {
-
-public:
-    /**
-     * @brief Метод створює директорію.
-     * @param path Шлях до директорії.
-     */
-    static void createDirectory(const fs::path& path) {
-        try {
-            if (fs::exists(path)) {
-                cout << "Directory already exists, skipping: " << path << endl;
-                return;
-            }
-
-            if (fs::create_directories(path)) {
-                cout << "Created directory: " << path << endl;
-            }
-        }
-        catch (const fs::filesystem_error& e) {
-            throw runtime_error("Failed to create directory: " + path.string() + " - " + e.what());
-        }
-    }
-
-    /**
-     * @brief Створює файл.
-     * @param path Глях до файлу.
-     * @param context Вміст файлу.
-     */
-    static void createFile(const fs::path& path, const string& context) {
-        try {
-            if (fs::exists(path)) {
-                cout << "File already exists, skipping: " << path.string() << endl;
-                return;
-            }
-
-            ofstream file(path);
-            if (!file.is_open()) {
-                throw runtime_error("Cannot open file for writing" + path.string());
-            }
-
-            file << context;
-            if (file.fail()) {
-                throw runtime_error("Error writing to file: " + path.string());
-            }
-
-            cout << "Created file: " << path.string() << endl;
-
-        }
-        catch (const exception& e) {
-            throw runtime_error("Failed to create file: " + path.string() + " - " + e.what());
-        }
-    }
-};
-
 
 class ContentBuilder {
 
