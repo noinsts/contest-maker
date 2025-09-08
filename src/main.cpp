@@ -288,6 +288,8 @@ private:
                 SystemHelper::createGitRepo(fullPath.string());
             }
 
+            resetForm();
+
         } catch (const exception& e) {
             showErrorDialog("Помилка", e.what());
         }
@@ -309,6 +311,15 @@ private:
                 throw invalid_argument("Назва контесту містить заборонений символ: " + c);
             }
         }
+    }
+
+    void resetForm() {
+        nameEntry.set_text("");
+        folderName.clear();
+        maxContestProblem.set_active(DEFAULT_COMBO_SELECTION);
+        folder.set_label("Обрати папку");
+        openInCodeCheck.set_active(false);
+        createGitRepoCheck.set_active(false);
     }
 
     void showErrorDialog(const string& title, const string& subTitle) {
