@@ -13,12 +13,12 @@ using namespace std;
 class ContentBuilder {
 
 private:
-    string directoryName;
-    char maxSubDir;
-    fs::path basePath;
+    string directoryName_;
+    char maxSubDir_;
+    fs::path basePath_;
 
-    fs::path fullDirPath() const {
-        return basePath / directoryName;
+    [[nodiscard]] fs::path fullDirPath() const {
+        return basePath_ / directoryName_;
     }
 
     void createDirectory(const fs::path& path) {
@@ -54,7 +54,6 @@ private:
             }
 
             cout << "Created file: " << filePath.string() << endl;
-            file.close();
         
         } catch (const exception& e) {
             throw runtime_error("Failed to create file: " + filePath.string());
@@ -72,13 +71,13 @@ private:
         // CMake
         createFile(
             fullDirPath() / "CMakeLists.txt",
-            TemplateManager::getCMakeTemplate(directoryName, maxSubDir)
+            TemplateManager::getCMakeTemplate(directoryName_, maxSubDir_)
         );
 
         // README
         createFile(
             fullDirPath() / "README.md",
-            TemplateManager::getReadmeTemplate(directoryName)
+            TemplateManager::getReadmeTemplate(directoryName_)
         );
     }
 
@@ -86,14 +85,14 @@ private:
     // ==============================
 
     void createSubDirectories() {
-        for (char c = 'A'; c <= maxSubDir; ++c) {
-            fs::path dirPath = fullDirPath() / string{c};
+        for (char c = 'A'; c <= maxSubDir_; ++c) {
+            const fs::path dirPath = fullDirPath() / string{c};
             createDirectory(dirPath);
         }
     }
 
     void createSourceFiles() const {
-        for (char c = 'A'; c <= maxSubDir; c++) {
+        for (char c = 'A'; c <= maxSubDir_; c++) {
             const fs::path subDir = fullDirPath() / string{c};
             const string fileName = string{c};
 
@@ -113,7 +112,7 @@ private:
 
 public:
     ContentBuilder(string contestName, char maxDir, fs::path base)
-        : directoryName(std::move(contestName)), maxSubDir(maxDir), basePath(std::move(base)) {}
+        : directoryName_(std::move(contestName)), maxSubDir_(maxDir), basePath_(std::move(base)) {}
 
     void run() {
         createMainDirectory();
