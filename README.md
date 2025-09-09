@@ -5,6 +5,11 @@
 
 ---
 
+## UI прев'ю
+
+<img src="assets/windows.png" width="200" alt="Тут повинна бути картинка">
+
+---
 
 ## Install
 
