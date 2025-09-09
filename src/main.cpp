@@ -18,60 +18,82 @@ private:
     fs::path targetDirectory_;
 
     /**
+     * @brief Повертає повний шлях до контесту.
      * @returns Повний шлях до контесту.
      */
-    [[nodiscard]] fs::path getFullDirPath() const {
+    [[nodiscard]] fs::path getContestPath() const {
         return targetDirectory_ / contestName_;
     }
 
-    // ==============================
-    // ==============================
-
-    void createContestDirectory() {
-        FileSystemManager::createDirectory(getFullDirPath());
+    /**
+     * @brief Повертає шлях до конкретної задачі
+     * @param problemLetter Літера задачі.
+     * @return Повний шлях до директорії задачі.
+     */
+    [[nodiscard]] fs::path getProblemPath(char problemLetter) const {
+        return getContestPath() / string{problemLetter};
     }
 
-    void generateProjectFiles() {
+    /**
+     * @brief Створює головну директорію контесту.
+     */
+    void createContestDirectory() const {
+        FileSystemManager::createDirectory(getContestPath());
+    }
+
+    /**
+     * @brief Генерує основні файли проекту (README.md, CMakeLists.txt, тощо).
+     */
+    void generateProjectFiles() const {
         // CMake
         FileSystemManager::createFile(
-            getFullDirPath() / "CMakeLists.txt",
+            getContestPath() / "CMakeLists.txt",
             TemplateManager::getCMakeTemplate(contestName_, maxProblemLetter_)
         );
 
         // README
         FileSystemManager::createFile(
-            getFullDirPath() / "README.md",
+            getContestPath() / "README.md",
             TemplateManager::getReadmeTemplate(contestName_)
         );
     }
 
-    // ==============================
-    // ==============================
-
-    void createProblemDirectories() {
-        for (char c = 'A'; c <= maxProblemLetter_; ++c) {
-            const fs::path dirPath = getFullDirPath() / string{c};
+    /**
+     * @brief Створює директорії для всіх задач (A, B, C, ...)
+     */
+    void createProblemDirectories() const {
+        for (char problemLetter = 'A'; problemLetter <= maxProblemLetter_; ++problemLetter) {
+            const fs::path dirPath = getContestPath() / string{problemLetter};
             FileSystemManager::createDirectory(dirPath);
         }
     }
 
+    /**
+     * @brief Генерує вихідні дані для всіх задач.
+     */
     void generateSourceFiles() const {
-        for (char c = 'A'; c <= maxProblemLetter_; c++) {
-            const fs::path subDir = getFullDirPath() / string{c};
-            const string fileName = string{c};
-
-            // C++ файли
-            FileSystemManager::createFile(
-                subDir / (fileName + ".cpp"),
-                TemplateManager::getCppTemplate()
-            );
-
-            // Python файли
-            FileSystemManager::createFile(
-                subDir / (fileName + ".py"),
-                TemplateManager::getPythonTemplate()
-            );
+        for (char problemLetter = 'A'; problemLetter <= maxProblemLetter_; ++problemLetter) {
+            generateSourceFilesForProblem(problemLetter);
         }
+    }
+
+    /**
+     * @brief Створює сурс файли для конкретної задачі.
+     * @param problemLetter Літера задачі
+     */
+    void generateSourceFilesForProblem(char problemLetter) const {
+        const fs::path problemDir = getProblemPath(problemLetter);
+        const string fileName{problemLetter};
+
+        FileSystemManager::createFile(
+            problemDir / (fileName + ".cpp"),
+            TemplateManager::getCppTemplate()
+        );
+
+        FileSystemManager::createFile(
+            problemDir / (fileName + ".py"),
+            TemplateManager::getPythonTemplate()
+        );
     }
 
 public:
@@ -90,7 +112,7 @@ public:
      * @brief Створює повну архітектуру контесту.
      * @throws runtime_error Якщо виникла помилка при створенні.
      */
-    void build() {
+    void build() const {
         createContestDirectory();
         generateProjectFiles();
         createProblemDirectories();
