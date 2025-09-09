@@ -96,24 +96,30 @@ public:
 private:
     static constexpr int WINDOW_WIDTH = 250;
     static constexpr int WINDOW_HEIGHT = 100;
-    static constexpr int DEFAULT_COMBO_SELECTION = 4;
+    static constexpr int DEFAULT_COMBO_SELECTION = 4; // E (5 problems)
 
+    // Layout
     Gtk::Box vbox{Gtk::ORIENTATION_VERTICAL};
-    Gtk::Label labelName{"Вкажіть назву контесту:"};
-    Gtk::Entry nameEntry;
 
-    Gtk::Label labelMaxProblem{"Оберіть кількість задач:"};
-    Gtk::ComboBoxText maxContestProblem;
+    // Contest name
+    Gtk::Label contestNameLabel{"Вкажіть назву контесту:"};
+    Gtk::Entry contestNameEntry;
 
-    Gtk::Label labelFolder{"Виберіть папку:"};
-    Gtk::Button folder{"Обрати папку"};
+    // Problem count
+    Gtk::Label problemCountLabel{"Оберіть кількість задач:"};
+    Gtk::ComboBoxText problemCountSelector;
 
-    Gtk::CheckButton openInCodeCheck{"Відкрити в Code"};
-    Gtk::CheckButton createGitRepoCheck{"Створити Git репозиторій"};
-
-    Gtk::Button createButton{"Створити"};
-
+    // Directory path
+    Gtk::Label directoryLabel{"Виберіть папку:"};
+    Gtk::Button directoryPicker{"Обрати папку"};
     string folderName;
+
+    // Checkboxes
+    Gtk::CheckButton openInVSCodeOption{"Відкрити в Code"};
+    Gtk::CheckButton initGitRepoOption{"Створити Git репозиторій"};
+
+    // Create
+    Gtk::Button createButton{"Створити"};
 
     void setupUI() {
         set_default_size(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -126,22 +132,24 @@ private:
         vbox.set_margin_left(10);
         vbox.set_margin_right(10);
 
-        vbox.pack_start(labelName, Gtk::PACK_SHRINK);
-        vbox.pack_start(nameEntry, Gtk::PACK_SHRINK);
+        // Contest name
+        vbox.pack_start(contestNameLabel, Gtk::PACK_SHRINK);
+        vbox.pack_start(contestNameEntry, Gtk::PACK_SHRINK);
 
-        vbox.pack_start(labelMaxProblem, Gtk::PACK_SHRINK);
+        // Problem count
+        vbox.pack_start(problemCountLabel, Gtk::PACK_SHRINK);
+        initializeProblemCountSelector();
+        vbox.pack_start(problemCountSelector, Gtk::PACK_SHRINK);
 
-        populateComboBox();
-        vbox.pack_start(maxContestProblem, Gtk::PACK_SHRINK);
+        // Directory path
+        vbox.pack_start(directoryLabel, Gtk::PACK_SHRINK);
+        vbox.pack_start(directoryPicker, Gtk::PACK_SHRINK);
 
-        vbox.set_spacing(10);
-        vbox.pack_start(labelFolder, Gtk::PACK_SHRINK);
+        // Checkboxes
+        vbox.pack_start(openInVSCodeOption, Gtk::PACK_SHRINK);
+        vbox.pack_start(initGitRepoOption, Gtk::PACK_SHRINK);
 
-        vbox.pack_start(folder, Gtk::PACK_SHRINK);
-
-        vbox.pack_start(openInCodeCheck, Gtk::PACK_SHRINK);
-        vbox.pack_start(createGitRepoCheck, Gtk::PACK_SHRINK);
-
+        // Create
         vbox.pack_start(createButton, Gtk::PACK_SHRINK);
 
         add(vbox);
@@ -152,16 +160,19 @@ private:
         createButton.signal_clicked().connect(
             sigc::mem_fun(*this, &MainWindow::onCreateButtonPress)
         );
-        folder.signal_clicked().connect(
+        directoryPicker.signal_clicked().connect(
             sigc::mem_fun(*this, &MainWindow::onFolderButtonPress)
         );
     }
 
-    void populateComboBox() {
+    /**
+     * @brief Ініціалізує селектор кількість задач
+     */
+    void initializeProblemCountSelector() {
         for (char c = 'A'; c <= 'Z'; c++) {
-            maxContestProblem.append(string{c});
+            problemCountSelector.append(string{c});
         }
-        maxContestProblem.set_active(DEFAULT_COMBO_SELECTION);
+        problemCountSelector.set_active(DEFAULT_COMBO_SELECTION);
     }
 
     void onFolderButtonPress() {
@@ -173,18 +184,16 @@ private:
             "_Cancel"
         );
 
-        int result = dialog -> run();
-
-        if (result == Gtk::RESPONSE_ACCEPT) {
+        if (dialog -> run() == Gtk::RESPONSE_ACCEPT) {
             folderName = dialog -> get_filename();
-            folder.set_label("🗂 " + fs::path(folderName).filename().string());
+            directoryPicker.set_label("🗂 " + fs::path(folderName).filename().string());
         }
     }
 
     void onCreateButtonPress() {
         try {
-            const string contestName = nameEntry.get_text();
-            const string maxDir = maxContestProblem.get_active_text();
+            const string contestName = contestNameEntry.get_text();
+            const string maxDir = problemCountSelector.get_active_text();
 
             validateFormInputs(contestName);
 
@@ -193,12 +202,12 @@ private:
 
             showSuccessDialog("Успіх!", "Папку створено.");
 
-            if (openInCodeCheck.get_active()) {
+            if (openInVSCodeOption.get_active()) {
                 const fs::path fullPath = fs::path(folderName) / contestName;
                 SystemHelper::openInCode(fullPath.string());
             }
 
-            if (createGitRepoCheck.get_active()) {
+            if (initGitRepoOption.get_active()) {
                 const fs::path fullPath = fs::path(folderName) / contestName;
                 SystemHelper::createGitRepo(fullPath.string());
             }
@@ -232,24 +241,22 @@ private:
      * @brief Очищує поля до їх дефолтних значень.
      */
     void resetForm() {
-        nameEntry.set_text("");
+        contestNameEntry.set_text("");
         folderName.clear();
-        maxContestProblem.set_active(DEFAULT_COMBO_SELECTION);
-        folder.set_label("Обрати папку");
-        openInCodeCheck.set_active(false);
-        createGitRepoCheck.set_active(false);
+        problemCountSelector.set_active(DEFAULT_COMBO_SELECTION);
+        directoryPicker.set_label("Обрати папку");
+        openInVSCodeOption.set_active(false);
+        initGitRepoOption.set_active(false);
     }
 
     void showErrorDialog(const string& title, const string& subTitle) {
-        Gtk::MessageDialog dialog(*this, "Помилка", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
-        dialog.set_title(title);
+        Gtk::MessageDialog dialog(*this, title, false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
         dialog.set_secondary_text(subTitle);
         dialog.run();
     }
 
     void showSuccessDialog(const string& title, const string& subTitle) {
-        Gtk::MessageDialog dialog(*this, "Інфо", false, Gtk::MESSAGE_INFO);
-        dialog.set_title(title);
+        Gtk::MessageDialog dialog(*this, title, false, Gtk::MESSAGE_INFO);
         dialog.set_secondary_text(subTitle);
         dialog.run();
     }
@@ -261,7 +268,8 @@ int main(int argc, char *argv[]) {
         auto app = Gtk::Application::create(argc, argv, "com.noinsts.contest-maker");
         MainWindow window;
         return app -> run(window);
-    } catch (const exception& e) {
+    } 
+    catch (const exception& e) {
         cerr << "Application error: " << e.what() << endl;
         return 1;
     }
