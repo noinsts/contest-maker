@@ -1,18 +1,32 @@
-# contest-maker
-
-Simple Gtkmm app for generating contest project structure
+﻿# 📦 Contest Maker
 
 ## Install
 
-```bash
-sudo apt update
-sudo apt install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
-```
+### Linux
 
-```bash
-sudo apt install cmake -y
-```
+1. **Встанови залежності**
+	
+	На Ubuntu/Debian:
 
-```bash
-bash build.bash
-```
+	```bash
+	sudo apt update
+	sudo apt install build-essential cmake ninja-build pkg-config libgtkmm-3.0-dev
+	```
+
+	На Fedora:
+
+	```bash
+	sudo dnf install cmake ninja-build gcc-c++ gtkmm30-devel
+	```
+
+	На Arch:
+
+	```bash
+	sudo pacman -S base-devel cmake ninja gtkmm3
+	```
+
+2. **Запусти скрипт збірки** з кореня проекту:
+
+	```bash
+	bash build.bash
+	```
