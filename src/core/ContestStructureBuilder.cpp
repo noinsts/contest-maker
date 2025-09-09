@@ -1,10 +1,11 @@
-#include "ContestStructureBuilder.hpp"
-#include <FileSystemManager.hpp>
-#include <TemplateManager.hpp>
+#include "core/ContestStructureBuilder.hpp"
 
 #include <string>
 #include <filesystem>
 #include <utility>
+
+#include <core/FileSystemManager.hpp>
+#include <core/TemplateManager.hpp>
 
 ContestStructureBuilder::ContestStructureBuilder(std::string contestName, char maxProblemLetter, std::filesystem::path targetDirectory)
     : contestName_(std::move(contestName)),

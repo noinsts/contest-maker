@@ -4,8 +4,8 @@
 #include <filesystem>
 #include <stdexcept>
 
-#include <SystemHelper.hpp>
-#include <ContestStructureBuilder.hpp>
+#include <core/SystemHelper.hpp>
+#include <core/ContestStructureBuilder.hpp>
 
 MainWindow::MainWindow() {
 	connectSignals();

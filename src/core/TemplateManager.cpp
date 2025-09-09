@@ -1,4 +1,4 @@
-#include "TemplateManager.hpp"
+#include "core/TemplateManager.hpp"
 
 std::string TemplateManager::getCppTemplate() {
     return (
