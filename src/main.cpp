@@ -10,51 +10,54 @@
 namespace fs = std::filesystem;
 using namespace std;
 
-class ContentBuilder {
+class ContestStructureBuilder {
 
 private:
-    string directoryName_;
-    char maxSubDir_;
-    fs::path basePath_;
+    string contestName_;
+    char maxProblemLetter_;
+    fs::path targetDirectory_;
 
-    [[nodiscard]] fs::path fullDirPath() const {
-        return basePath_ / directoryName_;
+    /**
+     * @returns Повний шлях до контесту.
+     */
+    [[nodiscard]] fs::path getFullDirPath() const {
+        return targetDirectory_ / contestName_;
     }
 
     // ==============================
     // ==============================
 
-    void createMainDirectory() {
-        FileSystemManager::createDirectory(fullDirPath());
+    void createContestDirectory() {
+        FileSystemManager::createDirectory(getFullDirPath());
     }
 
-    void createMainFiles() {
+    void generateProjectFiles() {
         // CMake
         FileSystemManager::createFile(
-            fullDirPath() / "CMakeLists.txt",
-            TemplateManager::getCMakeTemplate(directoryName_, maxSubDir_)
+            getFullDirPath() / "CMakeLists.txt",
+            TemplateManager::getCMakeTemplate(contestName_, maxProblemLetter_)
         );
 
         // README
         FileSystemManager::createFile(
-            fullDirPath() / "README.md",
-            TemplateManager::getReadmeTemplate(directoryName_)
+            getFullDirPath() / "README.md",
+            TemplateManager::getReadmeTemplate(contestName_)
         );
     }
 
     // ==============================
     // ==============================
 
-    void createSubDirectories() {
-        for (char c = 'A'; c <= maxSubDir_; ++c) {
-            const fs::path dirPath = fullDirPath() / string{c};
+    void createProblemDirectories() {
+        for (char c = 'A'; c <= maxProblemLetter_; ++c) {
+            const fs::path dirPath = getFullDirPath() / string{c};
             FileSystemManager::createDirectory(dirPath);
         }
     }
 
-    void createSourceFiles() const {
-        for (char c = 'A'; c <= maxSubDir_; c++) {
-            const fs::path subDir = fullDirPath() / string{c};
+    void generateSourceFiles() const {
+        for (char c = 'A'; c <= maxProblemLetter_; c++) {
+            const fs::path subDir = getFullDirPath() / string{c};
             const string fileName = string{c};
 
             // C++ файли
@@ -72,15 +75,26 @@ private:
     }
 
 public:
-    ContentBuilder(string contestName, char maxDir, fs::path base)
-        : directoryName_(std::move(contestName)), maxSubDir_(maxDir), basePath_(std::move(base)) {}
+    /**
+     * @brief Конструктор класу ContestStructureBuilder.
+     * @param contestName Назва контесту
+     * @param maxProblemLetter Остання літера задачі (A, B, C, ...)
+     * @param targetDirectory Цільова директорія для створення
+     */
+    ContestStructureBuilder(string contestName, char maxProblemLetter, fs::path targetDirectory)
+        : contestName_(std::move(contestName)), 
+          maxProblemLetter_(maxProblemLetter), 
+          targetDirectory_(std::move(targetDirectory)) {}
 
-    void run() {
-        createMainDirectory();
-        createMainFiles();
-
-        createSubDirectories();
-        createSourceFiles();
+    /**
+     * @brief Створює повну архітектуру контесту.
+     * @throws runtime_error Якщо виникла помилка при створенні.
+     */
+    void build() {
+        createContestDirectory();
+        generateProjectFiles();
+        createProblemDirectories();
+        generateSourceFiles();
     }
 };
 
@@ -197,8 +211,8 @@ private:
 
             validateFormInputs(contestName);
 
-            ContentBuilder builder(contestName, maxDir[0], fs::path(folderName));
-            builder.run();
+            ContestStructureBuilder builder(contestName, maxDir[0], fs::path(folderName));
+            builder.build();
 
             showSuccessDialog("Успіх!", "Папку створено.");
 
