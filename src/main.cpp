@@ -124,6 +124,10 @@ public:
 class MainWindow : public Gtk::Window {
 
 public: 
+    /**
+     * @brief Конструктор головного вікна.
+     * Ініціалізує UI та підключає сигнали
+     */
     MainWindow() {
         connectSignals();
         setupUI();
@@ -157,6 +161,9 @@ private:
     // Create
     Gtk::Button createButton{"Створити"};
 
+    /**
+     * @brief Налаштовує UI-компоненти та додає їх у головний контейнер.
+     */
     void setupUI() {
         set_default_size(WINDOW_WIDTH, WINDOW_HEIGHT);
         set_title("Contest maker");
@@ -192,6 +199,9 @@ private:
         show_all_children();
     }
 
+    /**
+     * @brief Підключає сигнали кнопок до відповідних обробників.
+     */
     void connectSignals() {
         createButton.signal_clicked().connect(
             sigc::mem_fun(*this, &MainWindow::onCreateButtonPress)
@@ -211,6 +221,10 @@ private:
         problemCountSelector.set_active(DEFAULT_COMBO_SELECTION);
     }
 
+    /**
+     * @brief Викликає файловий діалог для вибору папки.
+     * Після вибору - зберігає їх шлях у 'folderName' і оновлює текст кнопки.
+     */
     void onFolderButtonPress() {
         auto dialog = Gtk::FileChooserNative::create(
             "Оберіть директорію",
@@ -226,6 +240,9 @@ private:
         }
     }
 
+    /**
+     * @brief Обробник кнопки "Створити".
+     */
     void onCreateButtonPress() {
         try {
             const string contestName = contestNameEntry.get_text();
@@ -249,13 +266,17 @@ private:
             }
 
             resetForm();
-
-        } catch (const exception& e) {
+        } 
+        catch (const exception& e) {
             showErrorDialog("Помилка", e.what());
         }
 
     }
 
+    /**
+     * @brief Перевіряє коректність введених даних.
+     * @throws invalid_argument Якщо назва або шлях не коректні.
+     */
     void validateFormInputs(const string& contestName) const {
         if (contestName.empty()) {
             throw invalid_argument("Ви не вказали назву контесту");
@@ -285,12 +306,22 @@ private:
         initGitRepoOption.set_active(false);
     }
 
+    /**
+     * @brief Показує діалог помилки.
+     * @param title Заголовок діалогу.
+     * @param subTitle Пояснення помилки.
+     */
     void showErrorDialog(const string& title, const string& subTitle) {
         Gtk::MessageDialog dialog(*this, title, false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
         dialog.set_secondary_text(subTitle);
         dialog.run();
     }
 
+    /**
+     * @brief Показує діалог успіху.
+     * @param title Заголовок діалогу.
+     * @param subTitle Пояснення помилки.
+     */
     void showSuccessDialog(const string& title, const string& subTitle) {
         Gtk::MessageDialog dialog(*this, title, false, Gtk::MESSAGE_INFO);
         dialog.set_secondary_text(subTitle);
