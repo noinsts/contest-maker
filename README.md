@@ -44,6 +44,31 @@
 	bash build.bash
 	```
 
+### Windows
+
+1. **Встановлюємо [MSYS2](https://www.msys2.org/)**
+2. **Оновлюємо пакети**
+
+	```bash
+	pacman -Syu
+	```
+
+3. **Встановлюємо інструменти та GTK:**
+
+	```bash
+	pacman -S mingw-w64-x86_64-toolchain \
+          mingw-w64-x86_64-gtkmm3 \
+          mingw-w64-x86_64-cmake \
+          mingw-w64-x86_64-pkg-config
+	```
+
+4. **Запускаємо білд**
+
+	```bash
+	bash build.bash
+	```
+
+
 ## 🛡 Ліцензія  
 Цей проєкт ліцензовано під [MIT License](./LICENSE).
 
