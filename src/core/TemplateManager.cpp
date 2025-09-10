@@ -1,15 +1,28 @@
 #include "core/TemplateManager.hpp"
 
+#include <cctype>
+
 std::string TemplateManager::getCppTemplate() {
-    return (
-        "#include <bits/stdc++.h>\n"
-        "using namespace std;\n\n"
-        "int main() {\n"
-        "   ios_base::sync_with_stdio(false);\n"
-        "   cin.tie(nullptr);\n\n"
-        "   return 0;\n"
-        "}"
-    );
+    return R"(#include <bits/stdc++.h>
+using namespace std;
+
+void solve() {
+    // TODO: code
+}
+
+int main() {
+    ios_base::sync_with_stdio(false):
+    cin.tie(nullptr);
+
+    int tt; cin >> tt;
+
+    while (tt--) {
+        solve();
+    }
+
+    return 0;
+}
+)";
 }
 
 std::string TemplateManager::getJavaTemplate() {
