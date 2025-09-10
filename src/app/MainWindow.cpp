@@ -56,7 +56,7 @@ void MainWindow::connectSignals() {
     );
 }
 
-void MainWindow::initializeProblemCountSelector() {
+void MainWindow::initializeProblemCountSelector() const {
     for (char c = 'A'; c <= 'Z'; c++) {
         problemCountSelector.append(std::string{ c });
     }
