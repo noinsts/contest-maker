@@ -5,7 +5,13 @@
 
 ## UI прев'ю
 
+### Windows
+
 <img src="assets/windows.png" width="200" alt="Тут повинна бути картинка">
+
+### Linux
+
+<img src="assets/linux.png" width="400" alt="Тут повинна бути картинка">
 
 ## Install
 
