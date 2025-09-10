@@ -5,6 +5,8 @@ std::string TemplateManager::getCppTemplate() {
         "#include <bits/stdc++.h>\n"
         "using namespace std;\n\n"
         "int main() {\n"
+        "   ios_base::sync_with_stdio(false);\n"
+        "   cin.tie(nullptr);\n\n"
         "   return 0;\n"
         "}"
     );
