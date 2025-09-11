@@ -12,7 +12,7 @@ public:
     /**
     * @brief Шаблон для Java.
     */
-    static std::string getJavaTemplate();
+    static std::string getJavaTemplate(const std::string& className);
 
     /**
     * @brief Шаблон для Python.

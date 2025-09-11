@@ -27,8 +27,21 @@ std::string TemplateManager::getCppTemplate() {
     )";
 }
 
-std::string TemplateManager::getJavaTemplate() {
-    return "";
+std::string TemplateManager::getJavaTemplate(const std::string& className) {
+    return "import java.io.*;\n"
+        "public class " + className + " {\n"
+        "    private static void solve() {\n"
+        "        // TODO: code\n"
+        "    }\n"
+        "    public static void main(String[] args) throws IOException {\n"
+        "        try (BufferedReader sc = new BufferedReader(new InputStreamReader(System.in))) {\n"
+        "            int tt = Integer.parseInt(sc.readLine());\n"
+        "            while (tt-- > 0) {\n"
+        "                solve();\n"
+        "            }\n"
+        "        }\n"
+        "    }\n"
+        "}\n";
 }
 
 std::string TemplateManager::getPythonTemplate() {
