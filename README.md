@@ -39,6 +39,28 @@ int main() {
 }
 ```
 
+### Java
+
+```java
+import java.io.*;
+
+public class Name {
+    private static void solve() {
+        // TODO: code
+    }
+
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader sc = new BufferedReader(new InputStreamReader(System.in))) {
+            int tt = Integer.parseInt(sc.readLine());
+
+            while (tt-- > 0) {
+                solve();
+            }
+        }
+    }
+}
+```
+
 ## Install
 
 ### Linux
