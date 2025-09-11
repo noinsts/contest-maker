@@ -32,12 +32,15 @@ std::string TemplateManager::getJavaTemplate() {
 }
 
 std::string TemplateManager::getPythonTemplate() {
-    return (
-        "def main() -> None:\n"
-        "   pass\n\n"
-        "if __name__ == \"__main__\":\n"
-        "   main()"
-    );
+    return R"(
+
+    def main() -> None:
+        pass
+
+    if __name__ == "__main__":
+        main()
+
+    )";
 }
 
 std::string TemplateManager::getReadmeTemplate(const std::string& projectName) {
