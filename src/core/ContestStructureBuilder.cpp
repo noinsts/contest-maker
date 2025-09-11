@@ -30,6 +30,7 @@ void ContestStructureBuilder::generateProjectFiles() const {
         getContestPath() / "CMakeLists.txt",
         TemplateManager::getCMakeTemplate(contestName_, maxProblemLetter_)
     );
+
     FileSystemManager::createFile(
         getContestPath() / "README.md",
         TemplateManager::getReadmeTemplate(contestName_)
@@ -51,13 +52,20 @@ void ContestStructureBuilder::generateSourceFiles() const {
 void ContestStructureBuilder::generateSourceFilesForProblem(char problemLetter) const {
     const std::filesystem::path problemDir = getProblemPath(problemLetter);
     const std::string fileName{ problemLetter };
+
     FileSystemManager::createFile(
         problemDir / (fileName + ".cpp"),
         TemplateManager::getCppTemplate()
     );
+
     FileSystemManager::createFile(
         problemDir / (fileName + ".py"),
         TemplateManager::getPythonTemplate()
+    );
+
+    FileSystemManager::createFile(
+        problemDir / (fileName + ".java"),
+        TemplateManager::getJavaTemplate(fileName)
     );
 }
 
