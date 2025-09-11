@@ -61,6 +61,16 @@ public class Name {
 }
 ```
 
+### Python
+
+```python
+def main() -> None:
+	pass
+
+if __name__ == "__main__":
+	main()
+```
+
 ## Install
 
 ### Linux
