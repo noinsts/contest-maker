@@ -53,7 +53,7 @@ private:
     /**
      * @brief Ініціалізує селектор кількість задач
      */
-    void initializeProblemCountSelector() const;
+    void initializeProblemCountSelector();
 
     /**
      * @brief Викликає файловий діалог для вибору папки.
