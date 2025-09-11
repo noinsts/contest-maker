@@ -13,7 +13,7 @@ std::string TemplateManager::getCppTemplate() {
     }
 
     int main() {
-        ios_base::sync_with_stdio(false):
+        ios_base::sync_with_stdio(false);
         cin.tie(nullptr);
 
         int tt; cin >> tt;
