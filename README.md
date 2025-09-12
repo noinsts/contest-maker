@@ -13,6 +13,27 @@
 
 <img src="assets/linux.png" width="400" alt="Тут повинна бути картинка">
 
+## Структура проекту
+
+```
+ContestName/
+├── README.md
+├── CMakeLists.txt
+└── src/
+├── A/
+│ ├── A.cpp
+│ ├── A.java
+│ └── A.py
+├── B/
+│ ├── B.cpp
+│ ├── B.java
+│ └── B.py
+└── C/
+├── C.cpp
+├── C.java
+└── C.py
+```
+
 ## Templates
 
 ### C++
