@@ -119,7 +119,7 @@ void MainWindow::validateFormInputs(const std::string& contestName) const {
     static const std::string FORBIDDEN_CHARS = "<>:\"/\\|?*";
     for (char c : contestName) {
         if (FORBIDDEN_CHARS.find(c) != std::string::npos) {
-            throw std::invalid_argument("Назва контесту містить заборонений символ: " + c);
+            throw std::invalid_argument("Назва контесту містить заборонений символ: " + std::string(1, c));
         }
     }
 }
