@@ -20,8 +20,13 @@ void SystemHelper::openInCode(const std::string& fullPath) {
 }
 
 void SystemHelper::createGitRepo(const std::string& fullPath) {
-    std::string escapedPath = "\"" + fullPath + "\"";
-    const std::string command = "cd " + escapedPath + " && git init";
+    std::string escapedPath = "\"" + fullPath + "\"", command;
+
+    #ifdef _WIN32
+        command = "cd \d" + escapedPath + " && git init";
+    #else
+        command = "cd" + escapedPath + " && git init";
+    #endif
 
     if (std::system(command.c_str()) != 0) {
         throw std::runtime_error("Помилка під час створення Git репозиторію");
