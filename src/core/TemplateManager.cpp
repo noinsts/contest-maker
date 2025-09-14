@@ -43,15 +43,14 @@ std::string TemplateManager::getJavaTemplate(const std::string& className) {
 }
 
 std::string TemplateManager::getPythonTemplate() {
-    return R"(
+    return R"(def main() -> None:
+    # TODO: code
+    pass
 
-    def main() -> None:
-        pass
+if __name__ == "__main__":
+    main()
 
-    if __name__ == "__main__":
-        main()
-
-    )";
+)";
 }
 
 std::string TemplateManager::getReadmeTemplate(const std::string& projectName) {
