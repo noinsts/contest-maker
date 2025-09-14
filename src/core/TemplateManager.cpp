@@ -3,28 +3,26 @@
 #include <cctype>
 
 std::string TemplateManager::getCppTemplate() {
-    return R"(
+    return R"(#include <bits/stdc++.h>
+using namespace std;
 
-    #include <bits/stdc++.h>
-    using namespace std;
+void solve() {
+    // TODO: code
+}
 
-    void solve() {
-        // TODO: code
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int tt; cin >> tt;
+
+    while (tt--) {
+        solve();
     }
 
-    int main() {
-        ios_base::sync_with_stdio(false);
-        cin.tie(nullptr);
-
-        int tt; cin >> tt;
-
-        while (tt--) {
-            solve();
-        }
-
-        return 0;
-    }
-    )";
+    return 0;
+}
+)";
 }
 
 std::string TemplateManager::getJavaTemplate(const std::string& className) {
