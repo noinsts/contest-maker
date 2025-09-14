@@ -3,7 +3,7 @@
 #include <cctype>
 
 Glib::ustring TemplateManager::getCppTemplate() {
-    return R"(#include <bits/stdc++.h>
+    return Glib::ustring(R"(#include <bits/stdc++.h>
 using namespace std;
 
 void solve() {
@@ -22,7 +22,7 @@ int main() {
 
     return 0;
 }
-)";
+)");
 }
 
 Glib::ustring TemplateManager::getJavaTemplate(const std::string& className) {
@@ -43,14 +43,14 @@ Glib::ustring TemplateManager::getJavaTemplate(const std::string& className) {
 }
 
 Glib::ustring TemplateManager::getPythonTemplate() {
-    return R"(def main() -> None:
+    return Glib::ustring(R"(def main() -> None:
     # TODO: code
     pass
 
 if __name__ == "__main__":
     main()
 
-)";
+)");
 }
 
 std::string TemplateManager::getReadmeTemplate(const std::string& projectName) {
