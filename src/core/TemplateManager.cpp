@@ -26,20 +26,25 @@ int main() {
 }
 
 Glib::ustring TemplateManager::getJavaTemplate(const std::string& className) {
-    return "import java.io.*;\n"
-        "public class " + className + " {\n"
-        "    private static void solve() {\n"
-        "        // TODO: code\n"
-        "    }\n"
-        "    public static void main(String[] args) throws IOException {\n"
-        "        try (BufferedReader sc = new BufferedReader(new InputStreamReader(System.in))) {\n"
-        "            int tt = Integer.parseInt(sc.readLine());\n"
-        "            while (tt-- > 0) {\n"
-        "                solve();\n"
-        "            }\n"
-        "        }\n"
-        "    }\n"
-        "}\n";
+    return Glib::ustring::compose(R"(import java.io.*;
+
+public class %1 {
+    private static void solve() {
+        // TODO: code
+    }
+
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader sc = new BufferedReader(new InputStreamReader(System.in))) {
+            int tt = Integer.parseInt(sc.readLine());
+            while (tt-- > 0) {
+                solve();
+            }
+        }
+    }
+}
+)",
+    className
+);
 }
 
 Glib::ustring TemplateManager::getPythonTemplate() {
