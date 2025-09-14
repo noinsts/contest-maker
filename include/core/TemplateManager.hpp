@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <glibmm/ustring.h>
 #include <string>
 
 class TemplateManager {
@@ -7,17 +8,17 @@ public:
     /**
     * @brief Шаблон для С++.
     */
-    static std::string getCppTemplate();
+    static Glib::ustring getCppTemplate();
 
     /**
     * @brief Шаблон для Java.
     */
-    static std::string getJavaTemplate(const std::string& className);
+    static Glib::ustring getJavaTemplate(const std::string& className);
 
     /**
     * @brief Шаблон для Python.
     */
-    static std::string getPythonTemplate();
+    static Glib::ustring getPythonTemplate();
 
     /**
     * @brief Шаблон для README.

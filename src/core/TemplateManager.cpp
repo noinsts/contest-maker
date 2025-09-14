@@ -2,7 +2,7 @@
 
 #include <cctype>
 
-std::string TemplateManager::getCppTemplate() {
+Glib::ustring TemplateManager::getCppTemplate() {
     return R"(#include <bits/stdc++.h>
 using namespace std;
 
@@ -25,7 +25,7 @@ int main() {
 )";
 }
 
-std::string TemplateManager::getJavaTemplate(const std::string& className) {
+Glib::ustring TemplateManager::getJavaTemplate(const std::string& className) {
     return "import java.io.*;\n"
         "public class " + className + " {\n"
         "    private static void solve() {\n"
@@ -42,7 +42,7 @@ std::string TemplateManager::getJavaTemplate(const std::string& className) {
         "}\n";
 }
 
-std::string TemplateManager::getPythonTemplate() {
+Glib::ustring TemplateManager::getPythonTemplate() {
     return R"(def main() -> None:
     # TODO: code
     pass
