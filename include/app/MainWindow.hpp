@@ -40,6 +40,7 @@ private:
     // Checkboxes
     Gtk::CheckButton openInVSCodeOption{ "Відкрити в Code" };
     Gtk::CheckButton initGitRepoOption{ "Створити Git репозиторій" };
+    Gtk::CheckButton openDebugWindowOption{ "Відкрити вікно відладки" };
 
     // Create
     Gtk::Button createButton{ "Створити" };
