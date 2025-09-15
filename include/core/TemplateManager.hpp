@@ -25,7 +25,7 @@ public:
     * @brief Шаблон для README.
     * @param projectName Назва контесту.
     */
-    static std::string getReadmeTemplate(const std::string& projectName);
+    static Glib::ustring getReadmeTemplate(const std::string& projectName);
 
     /**
     * @brief Шаблон для CMakeLists.

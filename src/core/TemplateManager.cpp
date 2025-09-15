@@ -58,8 +58,8 @@ if __name__ == "__main__":
 )");
 }
 
-std::string TemplateManager::getReadmeTemplate(const std::string& projectName) {
-    return "# " + projectName;
+Glib::ustring TemplateManager::getReadmeTemplate(const std::string& projectName) {
+    return Glib::ustring::compose("# %1\n", projectName);
 }
 
 std::string TemplateManager::getCMakeTemplate(const std::string& projectName, const char& maxSubDirs) {
