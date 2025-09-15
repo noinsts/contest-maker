@@ -39,6 +39,7 @@ void MainWindow::setupUI() {
     // Checkboxes
     vbox.pack_start(openInVSCodeOption, Gtk::PACK_SHRINK);
     vbox.pack_start(initGitRepoOption, Gtk::PACK_SHRINK);
+    vbox.pack_start(openDebugWindowOption, Gtk::PACK_SHRINK);
 
     // Create
     vbox.pack_start(createButton, Gtk::PACK_SHRINK);
