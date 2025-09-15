@@ -14,9 +14,15 @@ public:
      */
     DebugWindow();
 
+    /**
+     * @brief Додає до textView текст.
+     * @param text Текст, що треба додати.
+     */
+    void addText(const std::string& text);
+
 private:
-    static constexpr int WINDOW_WIDTH = 300; ///< Ширина вікна у пікселях
-    static constexpr int WINDOW_HEIGHT = 300; ///< Висота вікна у пікселях
+    static constexpr int WINDOW_WIDTH = 600; ///< Ширина вікна у пікселях
+    static constexpr int WINDOW_HEIGHT = 400; ///< Висота вікна у пікселях
 
     Gtk::TextView textView;
     Gtk::ScrolledWindow scrolled;

@@ -18,3 +18,11 @@ void DebugWindow::setupUI() {
     add(scrolled);
     show_all();
 }
+
+void DebugWindow::addText(const std::string& text) {
+    auto buffer = textView.get_buffer();
+    auto endIter = buffer->end();
+
+    buffer->insert(endIter, text + "\n");
+    textView.scroll_to(buffer->get_insert());
+}
