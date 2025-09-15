@@ -3,6 +3,8 @@
 #include <gtkmm.h>
 #include <string>
 
+#include <app/DebugWindow.hpp>
+
 /**
  * @class MainWindow
  * @brief Головне вікно застосунку
@@ -44,6 +46,9 @@ private:
 
     // Create
     Gtk::Button createButton{ "Створити" };
+
+    // Debug Window
+    DebugWindow* debug_window;
 
     /**
     * @brief Налаштовує UI-компоненти та додає їх у головний контейнер.
