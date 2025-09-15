@@ -3,6 +3,10 @@
 #include <gtkmm.h>
 #include <string>
 
+/**
+ * @class MainWindow
+ * @brief Головне вікно застосунку
+ */
 class MainWindow : public Gtk::Window {
 
 public:
@@ -13,9 +17,9 @@ public:
     MainWindow();
 
 private:
-    static constexpr int WINDOW_WIDTH = 250;
-    static constexpr int WINDOW_HEIGHT = 100;
-    static constexpr int DEFAULT_COMBO_SELECTION = 4; // E (5 problems)
+    static constexpr int WINDOW_WIDTH = 250; ///< Ширина вікна у пікселях
+    static constexpr int WINDOW_HEIGHT = 100; ///< Висота вікна у пікселях
+    static constexpr int DEFAULT_COMBO_SELECTION = 4; ///< E (5 задач) - дефолтний вибір
 
     // Layout
     Gtk::Box vbox{ Gtk::ORIENTATION_VERTICAL };
