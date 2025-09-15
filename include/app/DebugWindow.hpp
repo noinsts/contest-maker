@@ -14,12 +14,6 @@ public:
      */
     DebugWindow();
 
-    /**
-     * @brief Додає до textView текст.
-     * @param text Текст, що треба додати.
-     */
-    void addText(const std::string& text);
-
 private:
     static constexpr int WINDOW_WIDTH = 600; ///< Ширина вікна у пікселях
     static constexpr int WINDOW_HEIGHT = 400; ///< Висота вікна у пікселях
@@ -31,4 +25,10 @@ private:
      * @brief Встановлює та налаштовує UI-компоненти.
      */
     void setupUI();
+
+    /**
+     * @brief Додає до textView текст.
+     * @param text Текст, що треба додати.
+     */
+    void addText(const std::string& text);
 };
