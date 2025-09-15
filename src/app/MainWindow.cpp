@@ -6,6 +6,7 @@
 
 #include <core/SystemHelper.hpp>
 #include <core/ContestStructureBuilder.hpp>
+#include <app/DebugWindow.hpp>
 
 MainWindow::MainWindow() {
 	connectSignals();
@@ -99,6 +100,13 @@ void MainWindow::onCreateButtonPress() {
         if (initGitRepoOption.get_active()) {
             const std::filesystem::path fullPath = std::filesystem::path(folderName) / contestName;
             SystemHelper::createGitRepo(fullPath.string());
+        }
+
+        if (openDebugWindowOption.get_active()) {
+            if (!debug_window) {
+                debug_window = new DebugWindow();
+            }
+            debug_window->show();
         }
 
         resetForm();
