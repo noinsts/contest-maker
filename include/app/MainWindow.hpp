@@ -18,6 +18,12 @@ public:
      */
     MainWindow();
 
+    /**
+     * @brief Деконструктор головного вікна.
+     * Видаляє DebugWindow, якщо він є.
+     */
+    ~MainWindow();
+
 private:
     static constexpr int WINDOW_WIDTH = 250; ///< Ширина вікна у пікселях
     static constexpr int WINDOW_HEIGHT = 100; ///< Висота вікна у пікселях

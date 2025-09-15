@@ -13,6 +13,12 @@ MainWindow::MainWindow() {
 	setupUI();
 }
 
+MainWindow::~MainWindow() {
+    if (debug_window) {
+        delete debug_window;
+    }
+}
+
 void MainWindow::setupUI() {
     set_default_size(WINDOW_WIDTH, WINDOW_HEIGHT);
     set_title("Contest maker");
