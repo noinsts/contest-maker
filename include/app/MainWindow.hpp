@@ -3,6 +3,12 @@
 #include <gtkmm.h>
 #include <string>
 
+#include <app/DebugWindow.hpp>
+
+/**
+ * @class MainWindow
+ * @brief Головне вікно застосунку
+ */
 class MainWindow : public Gtk::Window {
 
 public:
@@ -12,10 +18,16 @@ public:
      */
     MainWindow();
 
+    /**
+     * @brief Деконструктор головного вікна.
+     * Видаляє DebugWindow, якщо він є.
+     */
+    ~MainWindow();
+
 private:
-    static constexpr int WINDOW_WIDTH = 250;
-    static constexpr int WINDOW_HEIGHT = 100;
-    static constexpr int DEFAULT_COMBO_SELECTION = 4; // E (5 problems)
+    static constexpr int WINDOW_WIDTH = 250; ///< Ширина вікна у пікселях
+    static constexpr int WINDOW_HEIGHT = 100; ///< Висота вікна у пікселях
+    static constexpr int DEFAULT_COMBO_SELECTION = 4; ///< E (5 задач) - дефолтний вибір
 
     // Layout
     Gtk::Box vbox{ Gtk::ORIENTATION_VERTICAL };
@@ -36,9 +48,13 @@ private:
     // Checkboxes
     Gtk::CheckButton openInVSCodeOption{ "Відкрити в Code" };
     Gtk::CheckButton initGitRepoOption{ "Створити Git репозиторій" };
+    Gtk::CheckButton openDebugWindowOption{ "Відкрити вікно відладки" };
 
     // Create
     Gtk::Button createButton{ "Створити" };
+
+    // Debug Window
+    DebugWindow* debug_window;
 
     /**
     * @brief Налаштовує UI-компоненти та додає їх у головний контейнер.
