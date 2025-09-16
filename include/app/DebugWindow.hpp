@@ -15,8 +15,8 @@ public:
     DebugWindow();
 
 private:
-    static constexpr int WINDOW_WIDTH = 600; ///< Ширина вікна у пікселях
-    static constexpr int WINDOW_HEIGHT = 400; ///< Висота вікна у пікселях
+    static constexpr int WINDOW_WIDTH = 800; ///< Ширина вікна у пікселях
+    static constexpr int WINDOW_HEIGHT = 600; ///< Висота вікна у пікселях
 
     Gtk::TextView textView;
     Gtk::ScrolledWindow scrolled;
