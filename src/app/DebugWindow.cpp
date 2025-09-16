@@ -1,4 +1,5 @@
 #include "app/DebugWindow.hpp"
+#include <core/StreamRedirector.hpp>
 
 DebugWindow::DebugWindow() {
     setupUI();
@@ -17,6 +18,23 @@ void DebugWindow::setupUI() {
 
     add(scrolled);
     show_all();
+
+    Glib::signal_timeout().connect(
+        sigc::mem_fun(*this, &DebugWindow::updateTextView),
+        500 
+    );
+}
+
+bool DebugWindow::updateTextView() {
+    static size_t lastSize = 0;
+    std::string text = StreamRedirector::getCapturedText();
+
+    if (text.size() > lastSize) {
+        addText(text.substr(lastSize));
+        lastSize = text.size();
+    }
+
+    return true;
 }
 
 void DebugWindow::addText(const std::string& text) {

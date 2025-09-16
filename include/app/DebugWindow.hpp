@@ -25,10 +25,14 @@ private:
      * @brief Встановлює та налаштовує UI-компоненти.
      */
     void setupUI();
+    
+    /**
+     * @brief Оновлює текст в textView.
+     */
+    bool updateTextView();
 
     /**
      * @brief Додає до textView текст.
-     * @param text Текст, що треба додати.
      */
     void addText(const std::string& text);
 };
