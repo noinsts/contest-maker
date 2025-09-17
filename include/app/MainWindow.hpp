@@ -54,7 +54,7 @@ private:
     Gtk::Button createButton{ "Створити" };
 
     // Debug Window
-    DebugWindow* debug_window;
+    DebugWindow* debug_window = nullptr;
 
     /**
     * @brief Налаштовує UI-компоненти та додає їх у головний контейнер.
