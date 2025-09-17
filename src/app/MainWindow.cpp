@@ -30,6 +30,9 @@ void MainWindow::setupUI() {
     vbox.set_margin_left(10);
     vbox.set_margin_right(10);
 
+    vbox.set_halign(Gtk::ALIGN_CENTER);
+    vbox.set_valign(Gtk::ALIGN_CENTER);
+
     // Contest name
     vbox.pack_start(contestNameLabel, Gtk::PACK_SHRINK);
     vbox.pack_start(contestNameEntry, Gtk::PACK_SHRINK);
