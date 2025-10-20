@@ -18,7 +18,7 @@ std::filesystem::path ContestStructureBuilder::getContestPath() const {
 }
 
 std::filesystem::path ContestStructureBuilder::getProblemPath(char problemLetter) const {
-    return getContestPath() / std::string{ problemLetter };
+    return getContestPath() / "src" / std::string{ problemLetter };
 }
 
 void ContestStructureBuilder::createContestDirectory() const {
