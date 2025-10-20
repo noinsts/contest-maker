@@ -38,6 +38,7 @@ void ContestStructureBuilder::generateProjectFiles() const {
 }
 
 void ContestStructureBuilder::createProblemDirectories() const {
+    FileSystemManager::createDirectory(getContestPath() / "src");
     for (char problemLetter = 'A'; problemLetter <= maxProblemLetter_; ++problemLetter) {
         FileSystemManager::createDirectory(getProblemPath(problemLetter));
     }
