@@ -1,5 +1,14 @@
 ﻿# 📦 Contest Maker
 
+![C++17](https://img.shields.io/badge/C%2B%2B-17-blue?logo=cplusplus)
+![GTK](https://img.shields.io/badge/GTK-3-purple?logo=gtk)
+![CMake](https://img.shields.io/badge/CMake-required-blue?logo=cmake)
+![Linux](https://img.shields.io/badge/Linux-supported-success?logo=linux)
+![Windows](https://img.shields.io/badge/Windows-supported-success?logo=windows)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+<img src="assets/logo.png" alt="Logo" width="200">
+
 **Contest Maker** - простий десктопний GTK-додаток для швидкого старту під час контестів чи олімпіад.
 
 ## 🔥 Основні можливості
