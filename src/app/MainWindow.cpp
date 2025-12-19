@@ -14,9 +14,8 @@ MainWindow::MainWindow() {
 }
 
 MainWindow::~MainWindow() {
-    if (debug_window) {
-        delete debug_window;
-    }
+    delete debug_window;
+	delete settings_window;
 }
 
 void MainWindow::setupUI() {
@@ -51,7 +50,8 @@ void MainWindow::setupUI() {
     vbox.pack_start(initGitRepoOption, Gtk::PACK_SHRINK);
     vbox.pack_start(openDebugWindowOption, Gtk::PACK_SHRINK);
 
-    // Create
+    // Buttons
+	vbox.pack_start(settingsButton, Gtk::PACK_SHRINK);
     vbox.pack_start(createButton, Gtk::PACK_SHRINK);
 
     add(vbox);
@@ -59,7 +59,10 @@ void MainWindow::setupUI() {
 }
 
 void MainWindow::connectSignals() {
-    createButton.signal_clicked().connect(
+    settingsButton.signal_clicked().connect(
+    	sigc::mem_fun(*this, &MainWindow::onSettingsButtonPress)
+    );
+	createButton.signal_clicked().connect(
         sigc::mem_fun(*this, &MainWindow::onCreateButtonPress)
     );
     directoryPicker.signal_clicked().connect(
@@ -87,6 +90,13 @@ void MainWindow::onFolderButtonPress() {
         folderName = dialog->get_filename();
         directoryPicker.set_label("🗂 " + std::filesystem::path(folderName).filename().string());
     }
+}
+
+void MainWindow::onSettingsButtonPress() {
+	if (!settings_window) {
+		settings_window = new SettingsWindow();
+	}
+	settings_window->show();
 }
 
 void MainWindow::onCreateButtonPress() {

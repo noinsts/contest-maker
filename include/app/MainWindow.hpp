@@ -4,6 +4,7 @@
 #include <string>
 
 #include <app/DebugWindow.hpp>
+#include <app/SettingsWindow.hpp>
 
 /**
  * @class MainWindow
@@ -22,7 +23,7 @@ public:
      * @brief Деконструктор головного вікна.
      * Видаляє DebugWindow, якщо він є.
      */
-    ~MainWindow();
+    ~MainWindow() override;
 
 private:
     static constexpr int WINDOW_WIDTH = 250; ///< Ширина вікна у пікселях
@@ -50,11 +51,15 @@ private:
     Gtk::CheckButton initGitRepoOption{ "Створити Git репозиторій" };
     Gtk::CheckButton openDebugWindowOption{ "Відкрити вікно відладки" };
 
+	// Settings
+	Gtk::Button settingsButton{ "Налаштування" };
+
     // Create
     Gtk::Button createButton{ "Створити" };
 
-    // Debug Window
+    // Windows
     DebugWindow* debug_window = nullptr;
+	SettingsWindow* settings_window = nullptr;
 
     /**
     * @brief Налаштовує UI-компоненти та додає їх у головний контейнер.
@@ -76,6 +81,11 @@ private:
      * Після вибору - зберігає їх шлях у 'folderName' і оновлює текст кнопки.
      */
     void onFolderButtonPress();
+
+	/**
+	 * @brief Відкриває вікно налаштування.
+	 */
+	void onSettingsButtonPress();
 
     /**
      * @brief Обробник кнопки "Створити".
