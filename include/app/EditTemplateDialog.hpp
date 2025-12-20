@@ -2,6 +2,7 @@
 
 #include <string>
 #include <gtkmm.h>
+#include <gtksourceviewmm.h>
 
 class EditTemplateDialog : public Gtk::Dialog {
 public:
@@ -10,15 +11,16 @@ public:
 	std::string getTemplate();
 
 private:
-	static constexpr int WINDOW_WIDTH = 400;
-	static constexpr int WINDOW_HEIGHT = 400;
+	static constexpr int WINDOW_WIDTH = 600;
+	static constexpr int WINDOW_HEIGHT = 500;
 
 	Gtk::Box vbox{ Gtk::ORIENTATION_VERTICAL };
 	Gtk::ScrolledWindow scrolled;
 
 	Gtk::Label titleLabel;
 
-	Gtk::TextView textview;
+	Gsv::View sourceView;
+	Glib::RefPtr<Gsv::Buffer> sourceBuffer;
 
 	void setupUI();
 };
