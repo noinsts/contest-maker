@@ -1,6 +1,7 @@
 #include "app/SettingsWindow.hpp"
 
 #include <core/ConfigManager.hpp>
+#include <app/EditTemplateDialog.hpp>
 
 SettingsWindow::SettingsWindow() {
 	loadLanguages();
@@ -56,10 +57,30 @@ void SettingsWindow::renderLanguageRow(size_t index) {
 
 	auto* titleLabel = Gtk::manage(new Gtk::Label(lang.name));
 
+	auto* editButton = Gtk::manage(new Gtk::Button("Редагувати"));
+	editButton->signal_clicked().connect([this, index] {
+		onEditButtonClick(index);
+	});
+
 	rowBox->pack_start(*checkbox, Gtk::PACK_SHRINK);
 	rowBox->pack_start(*titleLabel, Gtk::PACK_SHRINK);
+	rowBox->pack_end(*editButton, Gtk::PACK_SHRINK);
 
 	languagesBox.pack_start(*rowBox, Gtk::PACK_SHRINK);
+}
+
+void SettingsWindow::onEditButtonClick(size_t index) {
+	auto& lang = languages[index];
+	EditTemplateDialog dialog(*this, lang.extension, lang.getActiveTemplate());
+	int result = dialog.run();
+	if (result == Gtk::RESPONSE_OK) {
+		std::string newTemplate = dialog.getTemplate();
+		if (newTemplate != lang.defaultTemplate) {
+			lang.customTemplate = newTemplate;
+		} else {
+			lang.customTemplate.clear();
+		}
+	}
 }
 
 void SettingsWindow::onApplyButtonClick() {

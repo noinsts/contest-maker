@@ -26,6 +26,7 @@ private:
 
 	void onApplyButtonClick();
 	void onCancelButtonClick();
+	void onEditButtonClick(size_t index);
 
 	static bool hasChange();
 	bool showConfirmationDialog(const Glib::ustring& title, const Glib::ustring& text);
