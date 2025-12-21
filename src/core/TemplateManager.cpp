@@ -1,61 +1,34 @@
 #include "core/TemplateManager.hpp"
+#include <core/ConfigManager.hpp>
 
 #include <cctype>
 
-Glib::ustring TemplateManager::getCppTemplate() {
-    return Glib::ustring(R"(#include <bits/stdc++.h>
-using namespace std;
-
-void solve() {
-    // TODO: code
+std::string TemplateManager::getLanguageTemplate(const std::string& langName, const std::string& className) {
+	auto languages = ConfigManager::loadConfig();
+	for (const auto& lang : languages) {
+		if (lang.name == langName && lang.enabled) {
+			std::string template_code = lang.getActiveTemplate();
+			const std::string placeholder = "{CLASS_NAME}";
+			size_t pos = 0;
+			while ((pos = template_code.find(placeholder, pos)) != std::string::npos) {
+				template_code.replace(pos, placeholder.length(), className);
+				pos += className.length();
+			}
+			return template_code;
+		}
+	}
+	return "";
 }
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int tt; cin >> tt;
-
-    while (tt--) {
-        solve();
-    }
-
-    return 0;
-}
-)");
-}
-
-Glib::ustring TemplateManager::getJavaTemplate(const std::string& className) {
-    return Glib::ustring::compose(R"(import java.io.*;
-
-public class %1 {
-    private static void solve() {
-        // TODO: code
-    }
-
-    public static void main(String[] args) throws IOException {
-        try (BufferedReader sc = new BufferedReader(new InputStreamReader(System.in))) {
-            int tt = Integer.parseInt(sc.readLine());
-            while (tt-- > 0) {
-                solve();
-            }
-        }
-    }
-}
-)",
-    className
-);
-}
-
-Glib::ustring TemplateManager::getPythonTemplate() {
-    return Glib::ustring(R"(def main() -> None:
-    # TODO: code
-    pass
-
-if __name__ == "__main__":
-    main()
-
-)");
+std::vector<LanguageTemplate> TemplateManager::getActiveLanguages() {
+	auto languages = ConfigManager::loadConfig();
+	std::vector<LanguageTemplate> enabled;
+	for (const auto& lang : languages) {
+		if (lang.enabled) {
+			enabled.push_back(lang);
+		}
+	}
+	return enabled;
 }
 
 Glib::ustring TemplateManager::getReadmeTemplate(const std::string& projectName) {

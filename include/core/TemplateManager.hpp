@@ -1,25 +1,16 @@
 ﻿#pragma once
+
 #include <glibmm/ustring.h>
 #include <string>
+#include <vector>
+#include <core/LanguageTemplate.hpp>
 
 class TemplateManager {
 
-public: 
-    /**
-    * @brief Шаблон для С++.
-    */
-    static Glib::ustring getCppTemplate();
+public:
+	static std::string getLanguageTemplate(const std::string& langName, const std::string& className = "");
 
-    /**
-    * @brief Шаблон для Java.
-    * @param className Назва основного класу в файлі.
-    */
-    static Glib::ustring getJavaTemplate(const std::string& className);
-
-    /**
-    * @brief Шаблон для Python.
-    */
-    static Glib::ustring getPythonTemplate();
+	static std::vector<LanguageTemplate> getActiveLanguages();
 
     /**
     * @brief Шаблон для README.
