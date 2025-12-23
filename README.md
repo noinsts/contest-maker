@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 	```bash
 	sudo apt update
-	sudo apt install build-essential cmake ninja-build pkg-config libgtkmm-3.0-dev libgtksourceviewmm-3.0-dev
+	sudo apt install build-essential cmake ninja-build pkg-config libgtkmm-3.0-dev libgtksourceviewmm-3.0-dev nlohmann-json3-dev
 	```
 
 	На Fedora:
