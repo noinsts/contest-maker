@@ -156,9 +156,11 @@ if __name__ == "__main__":
 
 	```bash
 	pacman -S mingw-w64-x86_64-toolchain \
-          mingw-w64-x86_64-gtkmm3 \
-          mingw-w64-x86_64-cmake \
-          mingw-w64-x86_64-pkg-config
+	          mingw-w64-x86_64-gtkmm3 \
+	          mingw-w64-x86_64-gtksourceviewmm3 \
+	          mingw-w64-x86_64-nlohmann-json \
+	          mingw-w64-x86_64-cmake \
+	          mingw-w64-x86_64-pkg-config
 	```
 
 4. **Запускаємо білд**
