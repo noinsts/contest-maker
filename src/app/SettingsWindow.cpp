@@ -17,25 +17,36 @@ void SettingsWindow::setupUI() {
 	set_title("Налаштування шаблонів");
 	set_default_size(WINDOW_WIDTH, WIDTH_HEIGHT);
 
-	scrolled.add(languagesBox);
+	scrolled.add(listbox);
+	scrolled.set_min_content_height(300);
 	scrolled.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
 	vbox.pack_start(scrolled, Gtk::PACK_EXPAND_WIDGET);
-	vbox.pack_start(buttonsBox, Gtk::PACK_EXPAND_WIDGET);
 
-	buttonsBox.pack_start(applyButton, Gtk::PACK_SHRINK);
-	applyButton.signal_clicked().connect(
-		sigc::mem_fun(*this, &SettingsWindow::onApplyButtonClick)
-	);
+	buttonsBox.set_spacing(10);
+	vbox.pack_start(buttonsBox, Gtk::PACK_SHRINK);
 
-	buttonsBox.pack_start(cancelButton, Gtk::PACK_SHRINK);
+	buttonsBox.pack_end(cancelButton, Gtk::PACK_SHRINK);
+	cancelButton.get_style_context()->add_class("destructive-action");
 	cancelButton.signal_clicked().connect(
 		sigc::mem_fun(*this, &SettingsWindow::onCancelButtonClick)
+	);
+
+	buttonsBox.pack_end(applyButton, Gtk::PACK_SHRINK);
+	applyButton.get_style_context()->add_class("suggested-button");
+	applyButton.signal_clicked().connect(
+		sigc::mem_fun(*this, &SettingsWindow::onApplyButtonClick)
 	);
 
 	for (size_t i = 0; i < languages.size(); i++) {
 		renderLanguageRow(i);
 	}
+
+	vbox.set_spacing(10);
+	vbox.set_margin_top(10);
+	vbox.set_margin_bottom(10);
+	vbox.set_margin_left(10);
+	vbox.set_margin_right(10);
 
 	add(vbox);
 	show_all();
@@ -44,29 +55,38 @@ void SettingsWindow::setupUI() {
 void SettingsWindow::renderLanguageRow(size_t index) {
 	auto& lang = languages[index];
 
-	auto* rowBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto* rowBox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL);
 	rowBox->set_spacing(10);
 	rowBox->set_margin_top(5);
 	rowBox->set_margin_bottom(5);
 
-	auto* checkbox = Gtk::manage(new Gtk::CheckButton());
-	checkbox->set_active(lang.enabled);
-	checkbox->signal_toggled().connect([this, index] {
-		languages[index].enabled = !languages[index].enabled;
-	});
+	auto* toggle = Gtk::make_managed<Gtk::Switch>();
+	toggle->set_active(lang.enabled);
+	toggle->signal_state_set().connect(
+		[&lang](bool state) {
+			lang.enabled = state;
+			return false;
+		}
+	);
 
-	auto* titleLabel = Gtk::manage(new Gtk::Label(lang.name));
+	auto* titleLabel = Gtk::make_managed<Gtk::Label>();
+	titleLabel->set_xalign(0);
+	titleLabel->set_markup("<b>" + lang.name + "</b>");
 
-	auto* editButton = Gtk::manage(new Gtk::Button("Редагувати"));
+	auto* editButton = Gtk::make_managed<Gtk::Button>("Редагувати");
+	editButton->set_relief(Gtk::RELIEF_NONE);
+	editButton->get_style_context()->add_class("suggested-button");
 	editButton->signal_clicked().connect([this, index] {
 		onEditButtonClick(index);
 	});
 
-	rowBox->pack_start(*checkbox, Gtk::PACK_SHRINK);
 	rowBox->pack_start(*titleLabel, Gtk::PACK_SHRINK);
+	rowBox->pack_end(*toggle, Gtk::PACK_SHRINK);
 	rowBox->pack_end(*editButton, Gtk::PACK_SHRINK);
 
-	languagesBox.pack_start(*rowBox, Gtk::PACK_SHRINK);
+	auto* row = Gtk::make_managed<Gtk::ListBoxRow>();
+	row->add(*rowBox);
+	listbox.add(*row);
 }
 
 void SettingsWindow::onEditButtonClick(size_t index) {
@@ -124,5 +144,5 @@ bool SettingsWindow::showConfirmationDialog(const Glib::ustring& title, const Gl
 }
 
 bool SettingsWindow::hasChange() {
-	return false; // TODO: implement logic
+	return false;
 }
