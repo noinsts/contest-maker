@@ -14,7 +14,7 @@ private:
 	static constexpr int WIDTH_HEIGHT = 400;
 
 	Gtk::Box vbox{ Gtk::ORIENTATION_VERTICAL };
-	Gtk::Box languagesBox{ Gtk::ORIENTATION_VERTICAL };
+	Gtk::ListBox listbox;
 	Gtk::Box buttonsBox{ Gtk::ORIENTATION_HORIZONTAL };
 	Gtk::ScrolledWindow scrolled;
 
