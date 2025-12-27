@@ -54,20 +54,16 @@ void ContestStructureBuilder::generateSourceFilesForProblem(char problemLetter) 
     const std::filesystem::path problemDir = getProblemPath(problemLetter);
     const std::string fileName{ problemLetter };
 
-    FileSystemManager::createFile(
-        problemDir / (fileName + ".cpp"),
-        TemplateManager::getCppTemplate()
-    );
-
-    FileSystemManager::createFile(
-        problemDir / (fileName + ".py"),
-        TemplateManager::getPythonTemplate()
-    );
-
-    FileSystemManager::createFile(
-        problemDir / (fileName + ".java"),
-        TemplateManager::getJavaTemplate(fileName)
-    );
+    const auto enabledLanguages = TemplateManager::getActiveLanguages();
+    for (const auto& lang : enabledLanguages) {
+        const std::string& templateCode = TemplateManager::getLanguageTemplate(lang.name, fileName);
+        if (!templateCode.empty()) {
+            FileSystemManager::createFile(
+                problemDir / (fileName + lang.extension),
+                templateCode
+            );
+        }
+    }
 }
 
 void ContestStructureBuilder::build() const {
