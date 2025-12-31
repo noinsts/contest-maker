@@ -15,7 +15,7 @@ void SettingsWindow::loadLanguages() {
 
 void SettingsWindow::setupUI() {
 	set_title("Налаштування шаблонів");
-	set_default_size(WINDOW_WIDTH, WIDTH_HEIGHT);
+	set_default_size(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	scrolled.add(listbox);
 	scrolled.set_min_content_height(300);

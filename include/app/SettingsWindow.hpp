@@ -11,7 +11,7 @@ public:
 
 private:
 	static constexpr int WINDOW_WIDTH = 400;
-	static constexpr int WIDTH_HEIGHT = 400;
+	static constexpr int WINDOW_HEIGHT = 400;
 
 	Gtk::Box vbox{ Gtk::ORIENTATION_VERTICAL };
 	Gtk::ListBox listbox;
