@@ -1,10 +1,11 @@
 #include "core/ConfigManager.hpp"
-#include <core/DefaultTemplates.hpp>
 
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <core/DefaultTemplates.hpp>
 
 using json = nlohmann::json;
 
@@ -21,8 +22,8 @@ std::vector<LanguageTemplate> ConfigManager::loadConfig() {
 		}
 		std::stringstream buffer;
 		buffer << file.rdbuf();
-		std::string json = buffer.str();
-		return fromJson(json);
+		std::string rawJson = buffer.str();
+		return fromJson(rawJson);
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Error load config: " << e.what() << std::endl
