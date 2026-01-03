@@ -5,7 +5,8 @@
 
 /**
  * @class ContestStructureBuilder
- * @brief Відповідає за створення файлової структури контесту з задачами A..X (визначається maxProblemLetter_).
+ * @brief Відповідає за створення файлової структури контесту 
+ * з задачами FIRST_PROBLEM..maxProblemLetter_.
  * 
  * Клас генерує директорії, базові конфігураційні файли
  * та шаблонні source-файли для кожної задачі.
@@ -15,6 +16,8 @@ private:
 	std::string contestName_;
 	char maxProblemLetter_;
 	std::filesystem::path targetDirectory_;
+	static const char FIRST_PROBLEM = 'A';
+	static const char LAST_PROBLEM = 'Z';
 
 	/**
 	 * @brief Повертає повний шлях до контесту.
@@ -24,7 +27,7 @@ private:
 
 	/**
 	* @brief Повертає шлях до конкретної задачі
-	* @param problemLetter Літера задачі в діапазоні 'A'-maxProblemLetter_.
+	* @param problemLetter Літера задачі в діапазоні FIRST_PROBLEM-maxProblemLetter_.
 	* @return Повний шлях до директорії задачі.
 	*/
 	[[nodiscard]] std::filesystem::path getProblemPath(char problemLetter) const;
@@ -57,7 +60,7 @@ private:
 	void generateSourceFilesForProblem(char problemLetter) const;
 
 	/**
-	 * @brief Перевіряє, чи входить maxProblemLetter в діапазон 'A'-'Z'.
+	 * @brief Перевіряє, чи входить maxProblemLetter в діапазоні FIRST_PROBLEM-LAST_PROBLEM.
 	 * @throws std::invalid_argument При невдалій валідації.
 	 */
 	void validateMaxProblemLetter() const;

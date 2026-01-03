@@ -44,13 +44,13 @@ void ContestStructureBuilder::generateProjectFiles() const {
 
 void ContestStructureBuilder::createProblemDirectories() const {
     FileSystemManager::createDirectory(getContestPath() / "src");
-    for (char problemLetter = 'A'; problemLetter <= maxProblemLetter_; ++problemLetter) {
+    for (char problemLetter = FIRST_PROBLEM; problemLetter <= maxProblemLetter_; ++problemLetter) {
         FileSystemManager::createDirectory(getProblemPath(problemLetter));
     }
 }
 
 void ContestStructureBuilder::generateSourceFiles() const {
-    for (char problemLetter = 'A'; problemLetter <= maxProblemLetter_; ++problemLetter) {
+    for (char problemLetter = FIRST_PROBLEM; problemLetter <= maxProblemLetter_; ++problemLetter) {
         generateSourceFilesForProblem(problemLetter);
     }
 }
@@ -72,7 +72,7 @@ void ContestStructureBuilder::generateSourceFilesForProblem(char problemLetter) 
 }
 
 void ContestStructureBuilder::validateMaxProblemLetter() const {
-    if (maxProblemLetter_ < 'A' || maxProblemLetter_ > 'Z') {
+    if (maxProblemLetter_ < FIRST_PROBLEM || maxProblemLetter_ > LAST_PROBLEM) {
         throw std::invalid_argument("Invalid maxProblemLetter");
     }
 }
