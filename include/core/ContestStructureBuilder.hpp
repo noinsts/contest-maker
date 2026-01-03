@@ -64,9 +64,9 @@ public:
 	 * @param targetDirectory Цільова директорія для створення
 	 */
 	ContestStructureBuilder(
-		std::string contestName, 
+		const std::string& contestName, 
 		char maxProblemLetter, 
-		std::filesystem::path targetDirectory
+		const std::filesystem::path& targetDirectory
 );
 
 	/**

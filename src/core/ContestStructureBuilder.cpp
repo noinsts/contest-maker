@@ -2,23 +2,25 @@
 
 #include <string>
 #include <filesystem>
-#include <utility>
 
 #include <core/FileSystemManager.hpp>
 #include <core/TemplateManager.hpp>
 
-ContestStructureBuilder::ContestStructureBuilder(std::string contestName, char maxProblemLetter, std::filesystem::path targetDirectory)
-    : contestName_(std::move(contestName)),
+ContestStructureBuilder::ContestStructureBuilder(
+    const std::string& contestName,
+    char maxProblemLetter,
+    const std::filesystem::path& targetDirectory
+)
+    : contestName_(contestName),
     maxProblemLetter_(maxProblemLetter),
-    targetDirectory_(std::move(targetDirectory)) {
-}
+    targetDirectory_(targetDirectory) {}
 
 std::filesystem::path ContestStructureBuilder::getContestPath() const {
     return targetDirectory_ / contestName_;
 }
 
 std::filesystem::path ContestStructureBuilder::getProblemPath(char problemLetter) const {
-    return getContestPath() / "src" / std::string{ problemLetter };
+    return getContestPath() / "src" / std::string(1, problemLetter);
 }
 
 void ContestStructureBuilder::createContestDirectory() const {
