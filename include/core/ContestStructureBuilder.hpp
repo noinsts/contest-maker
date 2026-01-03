@@ -3,8 +3,14 @@
 #include <filesystem>
 #include <string>
 
+/**
+ * @class ContestStructureBuilder
+ * @brief Відповідає за створення файлової структури контесту з задачами A..X (визначається maxProblemLetter_).
+ * 
+ * Клас генерує директорії, базові конфігураційні файли
+ * та шаблонні source-файли для кожної задачі.
+ */
 class ContestStructureBuilder {
-
 private:
 	std::string contestName_;
 	char maxProblemLetter_;
@@ -12,13 +18,13 @@ private:
 
 	/**
 	 * @brief Повертає повний шлях до контесту.
-	 * @returns Повний шлях до контесту.
+	 * @return Повний шлях до контесту.
 	 */
 	[[nodiscard]] std::filesystem::path getContestPath() const;
 
 	/**
 	* @brief Повертає шлях до конкретної задачі
-	* @param problemLetter Літера задачі.
+	* @param problemLetter Літера задачі в діапазоні 'A'-maxProblemLetter_.
 	* @return Повний шлях до директорії задачі.
 	*/
 	[[nodiscard]] std::filesystem::path getProblemPath(char problemLetter) const;
@@ -45,7 +51,7 @@ private:
 
 
 	/**
-	* @brief Створює сурс файли для конкретної задачі.
+	* @brief Створює source-файли для конкретної задачі.
 	* @param problemLetter Літера задачі
 	*/
 	void generateSourceFilesForProblem(char problemLetter) const;
@@ -54,14 +60,18 @@ public:
 	/**
 	 * @brief Конструктор класу ContestStructureBuilder.
 	 * @param contestName Назва контесту
-	 * @param maxProblemLetter Остання літера задачі (A, B, C, ...)
+	 * @param maxProblemLetter Остання літера задачі. Має бути в діапазоні 'A'-'Z'.
 	 * @param targetDirectory Цільова директорія для створення
 	 */
-	ContestStructureBuilder(std::string contestName, char maxProblemLetter, std::filesystem::path targetDirectory);
+	ContestStructureBuilder(
+		std::string contestName, 
+		char maxProblemLetter, 
+		std::filesystem::path targetDirectory
+);
 
 	/**
 	* @brief Створює повну архітектуру контесту.
-	* @throws runtime_error Якщо виникла помилка при створенні.
+	* @throws std::runtime_error Якщо будь-який з етапів створення завершився помилкою.
 	*/
 	void build() const;
 };
