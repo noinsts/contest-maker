@@ -56,6 +56,12 @@ private:
 	*/
 	void generateSourceFilesForProblem(char problemLetter) const;
 
+	/**
+	 * @brief Перевіряє, чи входить maxProblemLetter в діапазон 'A'-'Z'.
+	 * @throws std::invalid_argument При невдалій валідації.
+	 */
+	void validateMaxProblemLetter() const;
+
 public:
 	/**
 	 * @brief Конструктор класу ContestStructureBuilder.

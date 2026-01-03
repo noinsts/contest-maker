@@ -13,7 +13,10 @@ ContestStructureBuilder::ContestStructureBuilder(
 )
     : contestName_(contestName),
     maxProblemLetter_(maxProblemLetter),
-    targetDirectory_(targetDirectory) {}
+    targetDirectory_(targetDirectory) 
+{
+    validateMaxProblemLetter();
+}
 
 std::filesystem::path ContestStructureBuilder::getContestPath() const {
     return targetDirectory_ / contestName_;
@@ -54,7 +57,7 @@ void ContestStructureBuilder::generateSourceFiles() const {
 
 void ContestStructureBuilder::generateSourceFilesForProblem(char problemLetter) const {
     const std::filesystem::path problemDir = getProblemPath(problemLetter);
-    const std::string fileName{ problemLetter };
+    const std::string fileName(1, problemLetter);
 
     const auto enabledLanguages = TemplateManager::getActiveLanguages();
     for (const auto& lang : enabledLanguages) {
@@ -65,6 +68,12 @@ void ContestStructureBuilder::generateSourceFilesForProblem(char problemLetter) 
                 templateCode
             );
         }
+    }
+}
+
+void ContestStructureBuilder::validateMaxProblemLetter() const {
+    if (maxProblemLetter_ < 'A' || maxProblemLetter_ > 'Z') {
+        throw std::invalid_argument("Invalid maxProblemLetter");
     }
 }
 
