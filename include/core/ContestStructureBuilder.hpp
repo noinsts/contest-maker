@@ -13,11 +13,11 @@
  */
 class ContestStructureBuilder {
 private:
-	std::string contestName_;
-	char maxProblemLetter_;
-	std::filesystem::path targetDirectory_;
-	static const char FIRST_PROBLEM = 'A';
-	static const char LAST_PROBLEM = 'Z';
+	const std::string& contestName_; ///< Назва контесту.
+	char maxProblemLetter_; ///< Остання літера задачі.
+	const std::filesystem::path& targetDirectory_; ///< Коренева директорія створення.
+	static constexpr char FIRST_PROBLEM = 'A'; ///< Перша допустима літера задачі.
+	static constexpr char LAST_PROBLEM = 'Z'; ///< Остання допустима літера задачі.
 
 	/**
 	 * @brief Повертає повний шлях до контесту.
@@ -60,7 +60,7 @@ private:
 	void generateSourceFilesForProblem(char problemLetter) const;
 
 	/**
-	 * @brief Перевіряє, чи входить maxProblemLetter в діапазоні FIRST_PROBLEM-LAST_PROBLEM.
+	 * @brief Перевіряє, чи входить maxProblemLetter у діапазоні FIRST_PROBLEM-LAST_PROBLEM.
 	 * @throws std::invalid_argument При невдалій валідації.
 	 */
 	void validateMaxProblemLetter() const;
@@ -80,7 +80,7 @@ public:
 
 	/**
 	* @brief Створює повну архітектуру контесту.
-	* @throws std::runtime_error Якщо будь-який з етапів створення завершився помилкою.
+	* @throws std::exception Якщо будь-який з етапів створення завершився помилкою.
 	*/
 	void build() const;
 };
