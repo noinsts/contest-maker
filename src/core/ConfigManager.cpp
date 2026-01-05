@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <sstream>
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <core/DefaultTemplates.hpp>
@@ -10,9 +9,8 @@
 using json = nlohmann::json;
 
 std::vector<LanguageTemplate> ConfigManager::loadConfig() {
-	std::filesystem::path configPath = getTemplatePath();
+	auto configPath = getTemplatePath();
 	if (!std::filesystem::exists(configPath)) {
-		std::cout << "Config file not found, using defaults" << std::endl;
 		return DefaultTemplates::getAllTemplates();
 	}
 	try {
@@ -20,10 +18,9 @@ std::vector<LanguageTemplate> ConfigManager::loadConfig() {
 		if (!file.is_open()) {
 			throw std::runtime_error("Cannot open config file");
 		}
-		std::stringstream buffer;
-		buffer << file.rdbuf();
-		std::string rawJson = buffer.str();
-		return fromJson(rawJson);
+		json j;
+		file >> j;
+		return fromJson(j.dump());
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Error load config: " << e.what() << std::endl
@@ -33,10 +30,12 @@ std::vector<LanguageTemplate> ConfigManager::loadConfig() {
 }
 
 void ConfigManager::saveConfig(const std::vector<LanguageTemplate>& languages) {
-	ensureTemplateFileExists();
-	std::ofstream file(getTemplatePath());
+	auto path = getTemplatePath();
+	std::error_code ec;
+	std::filesystem::create_directories(path.parent_path(), ec);
+	std::ofstream file(path, std::ios::out | std::ios::trunc);
 	if (!file) {
-		std::cerr << "Failed to write template.json" << std::endl;
+		std::cerr << "Failed to save config to " << path.string() << std::endl;
 		return;
 	}
 	file << toJson(languages);
@@ -67,7 +66,7 @@ std::vector<LanguageTemplate> ConfigManager::fromJson(const std::string& raw) {
 }
 
 std::string ConfigManager::toJson(const std::vector<LanguageTemplate>& languages) {
-	json j;
+	json j = json::object();
 	j["languages"] = json::array();
 
 	for (const auto& lang : languages) {
