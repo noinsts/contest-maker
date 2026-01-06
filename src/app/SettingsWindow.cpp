@@ -143,6 +143,13 @@ bool SettingsWindow::showConfirmationDialog(const Glib::ustring& title, const Gl
 	return dialog.run() == Gtk::RESPONSE_OK;
 }
 
-bool SettingsWindow::hasChange() {
+bool SettingsWindow::hasChange() const {
+	for (size_t i = 0; i < languages.size(); ++i) {
+		const auto& lang = languages[i];
+		if (
+			lang.enabled != originalLanguages[i].enabled ||
+			lang.customTemplate != originalLanguages[i].customTemplate
+		) return true;
+	}
 	return false;
 }

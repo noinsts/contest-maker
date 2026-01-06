@@ -55,7 +55,7 @@ private:
 	 * @brief Перевіряє, чи будуть внесені зміни порівняно з оригіналом.
 	 * @return true, якщо дані змінено, інакше false.
 	 */
-	static bool hasChange();
+	bool hasChange() const;
 
 	/**
 	 * @brief Відображає модальне вікно підтвердження.
