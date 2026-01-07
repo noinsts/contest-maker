@@ -31,13 +31,15 @@ void ContestStructureBuilder::createContestDirectory() const {
 }
 
 void ContestStructureBuilder::generateProjectFiles() const {
+    const auto& contestPath = getContestPath();
+    
     FileSystemManager::createFile(
-        getContestPath() / "CMakeLists.txt",
+        contestPath / "CMakeLists.txt",
         TemplateManager::getCMakeTemplate(contestName_, maxProblemLetter_)
     );
 
     FileSystemManager::createFile(
-        getContestPath() / "README.md",
+        contestPath / "README.md",
         TemplateManager::getReadmeTemplate(contestName_)
     );
 }
