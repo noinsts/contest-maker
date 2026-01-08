@@ -12,19 +12,19 @@ struct LanguageTemplate {
 	std::string extension; ///< Формат мови.
 	std::string defaultTemplate; ///< Дефолтний шаблон.
 	std::string customTemplate; ///< Кастомний шаблон.
-	bool enabled; ///< Чи ввімкнена ця мова.
+	bool enabled = true; ///< Чи ввімкнена ця мова.
 
 	/**
 	 * @brief Повертає шаблон мови програмування.
 	 */
-	[[nodiscard]] std::string getActiveTemplate() const {
+	[[nodiscard]] const std::string& getActiveTemplate() const {
 		return customTemplate.empty() ? defaultTemplate : customTemplate;
 	}
 
 	/**
 	 * @brief Скидає шаблон мови до дефолтного.
 	 */
-	void resetToDefault() {
+	void resetToDefault() noexcept {
 		customTemplate.clear();
 	}
 
