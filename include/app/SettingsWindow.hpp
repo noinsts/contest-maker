@@ -63,7 +63,10 @@ private:
 	 * @param text Текст запитання.
 	 * @return true, якщо користувач натиснув OK.
 	 */
-	bool showConfirmationDialog(const Glib::ustring& title, const Glib::ustring& text);
+	bool showConfirmationDialog(
+		const Glib::ustring& title, 
+		const Glib::ustring& text
+	);
 
 	/**
 	 * @brief Створює та додає віджет рядка для конкретної мови в listbox.
