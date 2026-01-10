@@ -1,5 +1,6 @@
 ﻿#include "app/MainWindow.hpp"
 
+#include <iostream>
 #include <string>
 #include <filesystem>
 #include <stdexcept>
@@ -112,10 +113,16 @@ void MainWindow::onCreateButtonPress() {
         showSuccessDialog("Успіх!", "Папку створено.");
 
         if (openInVSCodeOption.get_active()) {
-            const std::filesystem::path fullPath = std::filesystem::path(folderName) / contestName;
-            SystemHelper::openInCode(fullPath.string());
+            try {
+                const std::filesystem::path fullPath = std::filesystem::path(folderName) / contestName;
+                SystemHelper::openInCode(fullPath.string());
+            }
+            catch (const std::exception& e) {
+                showErrorDialog("Помилка", std::string(e.what()));
+                std::cerr << "Виникла помилка: " << e.what() << '\n';
+            }
         }
-
+        
         if (initGitRepoOption.get_active()) {
             const std::filesystem::path fullPath = std::filesystem::path(folderName) / contestName;
             SystemHelper::createGitRepo(fullPath.string());
@@ -131,7 +138,7 @@ void MainWindow::onCreateButtonPress() {
         resetForm();
     }
     catch (const std::exception& e) {
-        showErrorDialog("Помилка", e.what());
+        showErrorDialog("Помилка", std::string(e.what()));
     }
 }
 
